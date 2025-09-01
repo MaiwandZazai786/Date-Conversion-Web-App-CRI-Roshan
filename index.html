@@ -635,59 +635,52 @@
         </button>
 
         <!-- CARD 1 -->
+
         <section
-          class="converter-card card-active"
-          data-index="0"
-          id="card-1"
-          aria-hidden="false"
+          class="converter-card card-left"
+          data-index="3"
+          id="card-4"
+          aria-hidden="true"
         >
-          <div class="result-panel" aria-live="polite">
+          <div class="result-panel">
             <div class="result-head">
               <div class="card-title">📊 نتیجه تبدیل</div>
               <button class="btn-clear" title="پاک‌کردن">Reset 🧹</button>
             </div>
-            <div style="overflow: auto">
-              <table class="result-table">
-                <thead>
-                  <tr>
-                    <th>میلادی</th>
-                    <th>قمری</th>
-                    <th>هجری شمسی</th>
-                    <th>سن</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td id="age_in_milladi_for_paper_nic"></td>
-                    <td id="age_in_qamari_for_paper_nic"></td>
-                    <td id="age_in_shamsi_for_paper_nic"></td>
-                    <td id="current_age_for_paper_nic"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>میلادی</th>
+                  <th>قمری</th>
+                  <th>هجری شمسی</th>
+                  <th>سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="G_age_in_milladi"></td>
+                  <td id="G_age_in_qamari"></td>
+                  <td id="G_age_in_shamsi"></td>
+                  <td id="G_current_age"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <h2 class="card-title">📜 تذکره کاغذی ➝ میلادی و قمری</h2>
+          <h2 class="card-title">
+            📅تذکره الکترونیکی (میلادی) ➝ قمری و هجری شمسی
+          </h2>
           <div class="inputs">
             <input
-              id="How_Many_Years"
+              id="G_Year"
               type="text"
               inputmode="numeric"
               pattern="[0-9]*"
-              placeholder="چند ساله؟"
-              class="f-input"
-            />
-            <input
-              id="In_Which_Year"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              placeholder="کدام سال؟"
+              placeholder="سال میلادی؟"
               class="f-input"
             />
             <button
-              onclick="Convert_HejiriShamsi_date_to_Gregorian_and_islamic()"
+              onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
               class="primary-btn"
             >
               تبدیل
@@ -805,48 +798,58 @@
 
         <!-- CARD 4 -->
         <section
-          class="converter-card card-left"
-          data-index="3"
-          id="card-4"
-          aria-hidden="true"
+          class="converter-card card-active"
+          data-index="0"
+          id="card-1"
+          aria-hidden="false"
         >
-          <div class="result-panel">
+          <div class="result-panel" aria-live="polite">
             <div class="result-head">
               <div class="card-title">📊 نتیجه تبدیل</div>
               <button class="btn-clear" title="پاک‌کردن">Reset 🧹</button>
             </div>
-            <table class="result-table">
-              <thead>
-                <tr>
-                  <th>میلادی</th>
-                  <th>قمری</th>
-                  <th>هجری شمسی</th>
-                  <th>سن</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td id="G_age_in_milladi"></td>
-                  <td id="G_age_in_qamari"></td>
-                  <td id="G_age_in_shamsi"></td>
-                  <td id="G_current_age"></td>
-                </tr>
-              </tbody>
-            </table>
+            <div style="overflow: auto">
+              <table class="result-table">
+                <thead>
+                  <tr>
+                    <th>میلادی</th>
+                    <th>قمری</th>
+                    <th>هجری شمسی</th>
+                    <th>سن</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="age_in_milladi_for_paper_nic"></td>
+                    <td id="age_in_qamari_for_paper_nic"></td>
+                    <td id="age_in_shamsi_for_paper_nic"></td>
+                    <td id="current_age_for_paper_nic"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <h2 class="card-title">📅 میلادی ➝ قمری و هجری شمسی</h2>
+          <h2 class="card-title">📜 تذکره کاغذی ➝ میلادی و قمری</h2>
           <div class="inputs">
             <input
-              id="G_Year"
+              id="How_Many_Years"
               type="text"
               inputmode="numeric"
               pattern="[0-9]*"
-              placeholder="سال میلادی؟"
+              placeholder="چند ساله؟"
+              class="f-input"
+            />
+            <input
+              id="In_Which_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="کدام سال؟"
               class="f-input"
             />
             <button
-              onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
+              onclick="Convert_HejiriShamsi_date_to_Gregorian_and_islamic()"
               class="primary-btn"
             >
               تبدیل

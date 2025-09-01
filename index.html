@@ -157,7 +157,7 @@
         justify-content: center;
         padding: 28px;
         overflow: hidden;
-        transition: background 0.2s ease, color 0.2s ease;
+        transition: background 0.1s ease, color 0.1s ease;
       }
 
       .ambient {
@@ -463,6 +463,7 @@
         border-radius: inherit;
       }
 
+      /* Reflection / glow under button — kept as requested */
       .primary-btn::after {
         content: "";
         position: absolute;
@@ -916,6 +917,18 @@
         return (i + N) % N;
       }
 
+      // NEW: focus helper — focuses first input inside active card
+      function focusFirstInputInActiveCard() {
+        const $active = $cards.eq(idx(current));
+        // only focus if the card is active and not aria-hidden
+        if (!$active.hasClass("card-active")) return;
+        const $first = $active.find('input[type="text"]').first();
+        if ($first.length) {
+          // slight delay to allow class transitions to settle
+          setTimeout(() => $first.trigger("focus"), 10);
+        }
+      }
+
       function applyClasses() {
         $cards
           .removeClass("card-active card-left card-right card-off")
@@ -935,6 +948,9 @@
           }
         }
         localStorage.setItem("cri_active_card", String(center));
+
+        // NEW: auto-focus the first input when the active card changes
+        focusFirstInputInActiveCard();
       }
       function goRight() {
         current = idx(current + 1);
@@ -1140,8 +1156,40 @@
         }
       };
 
+      // NEW: Enter key handling inside each card's inputs
+      // - If there is a next input in the same card -> focus it
+      // - If it's the last input -> trigger the same function as the card's submit (click the .primary-btn)
+      $(document).on(
+        "keydown",
+        ".converter-card input[type='text']",
+        function (e) {
+          if (e.key === "Enter" || e.keyCode === 13) {
+            e.preventDefault();
+            const $card = $(this).closest(".converter-card");
+            // Only act for the active card to avoid odd jumps
+            if (!$card.hasClass("card-active")) return;
+
+            const $inputs = $card.find("input[type='text']");
+            const i = $inputs.index(this);
+
+            if (i > -1 && i < $inputs.length - 1) {
+              // Jump to next input
+              $inputs.eq(i + 1).focus();
+            } else {
+              // Last input -> trigger submit button (same function as onclick)
+              const $btn = $card.find(".primary-btn").first();
+              if ($btn.length) {
+                $btn.trigger("click");
+              }
+            }
+          }
+        }
+      );
+
       $(document).ready(function () {
-        $("#G_Year").focus();
+        // Initial focus on the first input of the current active card
+        focusFirstInputInActiveCard();
+
         function onlyNumber(id) {
           $(id).on("input", function () {
             let v = $(this).val();

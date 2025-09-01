@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      href="https://play-lh.googleusercontent.com/ggJqF-yUv7EHk9Vt-2LBk8BcSlZRzdwZK-u0atAOUGgzksx2P0y3C0Je7ueDCd3BfA"
+      rel="icon"
+      type="image/x-icon"
+    />
+    <title>ROSHAN - CRI DATE CONVERTER</title>
+
+    <!-- jQuery & SweetAlert2 -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      :root {
+        --c-bg: #f4f7fb;
+        --c-ink: #0f172a;
+        --c-ink-dim: #475569;
+
+        --ovl-1: rgba(99, 102, 241, 0.16);
+        --ovl-2: rgba(239, 68, 68, 0.12);
+
+        --cardA: rgba(255, 255, 255, 0.94);
+        --cardB: rgba(255, 255, 255, 0.86);
+        --stroke: rgba(15, 23, 42, 0.1);
+        --shadow: 0 22px 60px rgba(15, 23, 42, 0.14),
+          0 6px 20px rgba(15, 23, 42, 0.08);
+
+        --panelA: rgba(255, 255, 255, 0.94);
+        --panelB: rgba(255, 255, 255, 0.86);
+        --panel-stroke: rgba(15, 23, 42, 0.1);
+        --panel-inset: inset 0 -4px 14px rgba(2, 6, 23, 0.05);
+
+        --inputA: rgba(255, 255, 255, 0.98);
+        --inputB: rgba(255, 255, 255, 0.92);
+        --input-stroke: rgba(15, 23, 42, 0.12);
+        --placeholder: #7b8496;
+
+        --accent-blue: 0 122 255;
+        --accent-indigo: 99 102 241;
+        --accent-red: 239 68 68;
+
+        --btn-grad: linear-gradient(
+          135deg,
+          rgba(0, 128, 255, 1) 0%,
+          rgba(30, 115, 255, 1) 45%,
+          rgba(55, 105, 255, 1) 100%
+        );
+        --btn-grad-hover: linear-gradient(
+          135deg,
+          rgba(0, 136, 255, 1) 0%,
+          rgba(38, 123, 255, 1) 45%,
+          rgba(63, 113, 255, 1) 100%
+        );
+        --btn-ink: #ffffff;
+
+        --nav-grad: linear-gradient(
+          135deg,
+          rgba(0, 128, 255, 0.95) 0%,
+          rgba(99, 102, 241, 0.95) 100%
+        );
+        --nav-ink: #0f172a;
+        --nav-ink-hover: #ffffff;
+
+        --logo-ink: #0f172a;
+        --logo-grad: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 1),
+          rgba(239, 68, 68, 1)
+        );
+
+        --blur-side: 1px;
+        --scale-side: 0.95;
+        --tilt: 10deg;
+
+        --wrap-h: 640px;
+        --card-h: 560px;
+        --card-w: 740px;
+        --edge-gap: 14px;
+      }
+      :root.dark {
+        --c-bg: #070e1f;
+        --c-ink: #e6eef7;
+        --c-ink-dim: #c9d3e3;
+
+        --ovl-1: rgba(99, 102, 241, 0.22);
+        --ovl-2: rgba(239, 68, 68, 0.18);
+
+        --cardA: rgba(255, 255, 255, 0.07);
+        --cardB: rgba(255, 255, 255, 0.045);
+        --stroke: rgba(255, 255, 255, 0.06);
+        --shadow: 0 32px 100px rgba(2, 6, 23, 0.65),
+          0 10px 28px rgba(99, 102, 241, 0.1);
+
+        --panelA: rgba(255, 255, 255, 0.04);
+        --panelB: rgba(255, 255, 255, 0.02);
+        --panel-stroke: rgba(255, 255, 255, 0.06);
+        --panel-inset: inset 0 -6px 16px rgba(2, 6, 23, 0.12);
+
+        --inputA: rgba(255, 255, 255, 0.04);
+        --inputB: rgba(255, 255, 255, 0.02);
+        --input-stroke: rgba(255, 255, 255, 0.06);
+        --placeholder: rgba(231, 236, 247, 0.66);
+
+        --nav-grad: linear-gradient(
+          135deg,
+          rgba(0, 128, 255, 0.96) 0%,
+          rgba(99, 102, 241, 0.96) 100%
+        );
+        --nav-ink: #ffffff;
+        --nav-ink-hover: #eaf1ff;
+
+        --logo-ink: #ffffff;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Tahoma, Vazirmatn, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Noto Sans Arabic", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background: radial-gradient(
+            1200px 520px at 110% -10%,
+            var(--ovl-1),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 520px at -10% 110%,
+            var(--ovl-2),
+            transparent 55%
+          ),
+          radial-gradient(
+            1400px 1200px at 50% -30%,
+            rgba(0, 0, 0, 0.06),
+            transparent 60%
+          ),
+          radial-gradient(
+            1400px 1200px at 50% 130%,
+            rgba(0, 0, 0, 0.06),
+            transparent 60%
+          ),
+          var(--c-bg);
+        color: var(--c-ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 28px;
+        overflow: hidden;
+        transition: background 0.35s ease, color 0.35s ease;
+      }
+
+      .ambient {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px) saturate(135%);
+        pointer-events: none;
+        opacity: 0.25;
+        z-index: 0;
+        transition: transform 0.25s ease;
+        will-change: transform;
+      }
+      .ambient.a1 {
+        width: 540px;
+        height: 540px;
+        right: -6%;
+        top: -10%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(var(--accent-indigo), 0.85),
+          rgba(var(--accent-red), 0.45) 55%,
+          transparent 70%
+        );
+      }
+      .ambient.a2 {
+        width: 420px;
+        height: 420px;
+        left: -10%;
+        bottom: -6%;
+        background: radial-gradient(
+          circle at 60% 40%,
+          rgba(var(--accent-red), 0.75),
+          rgba(var(--accent-blue), 0.35) 55%,
+          transparent 70%
+        );
+        opacity: 0.18;
+      }
+
+      .shell {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: var(--logo-grad);
+        box-shadow: 0 14px 40px rgba(2, 6, 23, 0.5);
+        display: grid;
+        place-items: center;
+        color: var(--logo-ink);
+        font-weight: 900;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+        user-select: none;
+      }
+      h1 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 900;
+        text-shadow: 0 8px 30px rgba(2, 6, 23, 0.16);
+      }
+
+      #themeToggle {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        border: 1px solid var(--stroke);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.14),
+          rgba(255, 255, 255, 0.06)
+        );
+        display: grid;
+        place-items: center;
+        color: var(--c-ink);
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease,
+          background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
+      }
+      #themeToggle:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.24);
+      }
+      #themeToggle:active {
+        transform: scale(0.96);
+      }
+
+      .cards-wrap {
+        position: relative;
+        width: 100%;
+        height: var(--wrap-h);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective: 1200px;
+        overflow: visible;
+      }
+
+      .converter-card {
+        position: absolute;
+        width: 100%;
+        max-width: var(--card-w);
+        height: var(--card-h);
+        border-radius: 22px;
+        padding: 26px;
+        z-index: 8;
+        overflow: hidden;
+        background: linear-gradient(180deg, var(--cardA), var(--cardB));
+        border: 1px solid var(--stroke);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(8px) saturate(140%);
+        transform-origin: center center;
+        transition: transform 0.46s cubic-bezier(0.2, 0.9, 0.2, 1),
+          opacity 0.35s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        color: var(--c-ink);
+        will-change: transform, opacity;
+      }
+      .card-active {
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 12;
+        transform: translateX(0) scale(1) rotateY(0deg);
+      }
+      .card-left,
+      .card-right {
+        opacity: 0.72;
+        pointer-events: none;
+        filter: blur(var(--blur-side));
+      }
+      .card-left {
+        transform: translateX(-56%) scale(var(--scale-side))
+          rotateY(var(--tilt));
+      }
+      .card-right {
+        transform: translateX(56%) scale(var(--scale-side))
+          rotateY(calc(-1 * var(--tilt)));
+      }
+      .card-off {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(120%) scale(0.9) rotateY(-14deg);
+      }
+
+      .result-panel {
+        border-radius: 16px;
+        padding: 12px;
+        background: linear-gradient(180deg, var(--panelA), var(--panelB));
+        border: 1px solid var(--panel-stroke);
+        box-shadow: var(--panel-inset);
+        color: var(--c-ink);
+        transition: background 0.25s ease, color 0.25s ease,
+          border-color 0.25s ease;
+      }
+      .result-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .result-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: inherit;
+      }
+      .result-table th {
+        font-weight: 800;
+        padding: 8px 6px;
+        opacity: 0.95;
+        font-size: 0.95rem;
+      }
+      .result-table td {
+        text-align: center;
+        font-weight: 700;
+        padding: 10px 6px;
+      }
+
+      .btn-clear {
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(
+          135deg,
+          rgba(238, 90, 90, 1),
+          rgba(255, 125, 125, 1)
+        );
+        color: #fff;
+        font-weight: 800;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.12s ease, filter 0.18s ease,
+          box-shadow 0.18s ease;
+        box-shadow: 0 12px 28px rgba(239, 68, 68, 0.28);
+      }
+      .btn-clear:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.03);
+        box-shadow: 0 16px 34px rgba(239, 68, 68, 0.33);
+      }
+      .btn-clear:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      .card-title {
+        font-size: 1.05rem;
+        font-weight: 900;
+      }
+      .muted {
+        font-size: 0.87rem;
+        color: var(--c-ink-dim);
+        transition: color 0.25s ease;
+      }
+
+      .inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 6px;
+      }
+      .f-input {
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: linear-gradient(180deg, var(--inputA), var(--inputB));
+        border: 1px solid var(--input-stroke);
+        color: var(--c-ink);
+        font-weight: 700;
+        outline: none;
+        transition: box-shadow 0.2s ease, transform 0.16s ease,
+          background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      .f-input::placeholder {
+        color: var(--placeholder);
+        font-weight: 600;
+      }
+      .f-input:focus {
+        box-shadow: 0 8px 30px rgba(30, 115, 255, 0.18),
+          0 0 14px rgba(55, 105, 255, 0.12);
+        transform: translateY(-1px);
+      }
+
+      .primary-btn {
+        --h: 48px;
+        min-height: var(--h);
+        padding: 0 18px;
+        border-radius: calc(var(--h) / 2 + 6px);
+        border: 0;
+        cursor: pointer;
+        font-weight: 900;
+        background: var(--btn-grad);
+        color: var(--btn-ink);
+        position: relative;
+        overflow: visible; /* allow the reflection to appear below */
+        box-shadow: 0 14px 30px rgba(30, 115, 255, 0.28);
+        transition: transform 0.14s ease, box-shadow 0.18s ease,
+          filter 0.18s ease, background 0.18s ease;
+        will-change: transform;
+      }
+      .primary-btn:hover {
+        background: var(--btn-grad-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px rgba(30, 115, 255, 0.34);
+        filter: brightness(1.02);
+      }
+      .primary-btn:active {
+        transform: translateY(0) scale(0.99);
+        box-shadow: 0 12px 26px rgba(30, 115, 255, 0.28);
+      }
+
+      .primary-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.16),
+          rgba(255, 255, 255, 0) 46%
+        );
+        mix-blend-mode: screen;
+        pointer-events: none;
+        border-radius: inherit;
+      }
+
+      .primary-btn::after {
+        content: "";
+        position: absolute;
+        left: 10%;
+        width: 80%;
+        height: 60%;
+        bottom: -32%;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(255, 255, 255, 0.42),
+          rgba(255, 255, 255, 0) 60%
+        );
+        filter: blur(10px);
+        pointer-events: none;
+        transition: opacity 0.18s ease;
+        opacity: 0.85;
+      }
+      .primary-btn:active::after {
+        opacity: 0.65;
+      }
+      .pulse {
+        animation: pulseGlow 850ms ease-in-out 1;
+      }
+      @keyframes pulseGlow {
+        0% {
+          box-shadow: 0 8px 24px rgba(30, 115, 255, 0.08);
+        }
+        50% {
+          box-shadow: 0 24px 60px rgba(30, 115, 255, 0.24);
+        }
+        100% {
+          box-shadow: 0 8px 24px rgba(30, 115, 255, 0.08);
+        }
+      }
+
+      .outer-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 30;
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        background: var(--nav-grad);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--nav-ink);
+        transition: transform 0.12s ease, box-shadow 0.18s ease,
+          color 0.18s ease, filter 0.18s ease;
+        overflow: hidden;
+        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22);
+        user-select: none;
+      }
+      .outer-nav svg {
+        width: 28px;
+        height: 28px;
+        color: currentColor;
+      }
+      .outer-nav.left {
+        left: var(--edge-gap);
+      }
+      .outer-nav.right {
+        right: var(--edge-gap);
+      }
+      .outer-nav:hover {
+        transform: translateY(calc(-50% - 1px));
+        filter: saturate(1.05) brightness(1.03);
+        color: var(--nav-ink-hover);
+        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.28);
+      }
+      .outer-nav:active {
+        transform: translateY(-50%) scale(0.98);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        :root {
+          --card-w: 92vw;
+        }
+      }
+      @media (max-width: 560px) {
+        .shell {
+          padding: 10px;
+        }
+        .converter-card {
+          padding: 18px;
+          border-radius: 16px;
+        }
+        .outer-nav {
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ambient a1"></div>
+    <div class="ambient a2"></div>
+
+    <div class="shell">
+      <header>
+        <div class="brand">
+          <div class="">
+            <img
+              src="https://play-lh.googleusercontent.com/ggJqF-yUv7EHk9Vt-2LBk8BcSlZRzdwZK-u0atAOUGgzksx2P0y3C0Je7ueDCd3BfA"
+              alt=""
+              width="70px"
+            />
+          </div>
+          <h1>🔄 تبدیل تاریخ</h1>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center">
+          <button id="themeToggle" aria-label="تغییر حالت" title="تغییر حالت">
+            🌙
+          </button>
+        </div>
+      </header>
+
+      <div class="cards-wrap" id="cards-container">
+        <button
+          class="outer-nav left"
+          id="prevOuter"
+          aria-label="قبلی"
+          title="قبلی"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M15 6L9 12L15 18"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          class="outer-nav right"
+          id="nextOuter"
+          aria-label="بعدی"
+          title="بعدی"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M9 6L15 12L9 18"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <!-- CARD 1 -->
+        <section
+          class="converter-card card-active"
+          data-index="0"
+          id="card-1"
+          aria-hidden="false"
+        >
+          <div class="result-panel" aria-live="polite">
+            <div class="result-head">
+              <div class="card-title">📊 نتیجه تبدیل</div>
+              <button class="btn-clear" title="پاک‌کردن">🧹</button>
+            </div>
+            <div style="overflow: auto">
+              <table class="result-table">
+                <thead>
+                  <tr>
+                    <th>میلادی</th>
+                    <th>قمری</th>
+                    <th>هجری شمسی</th>
+                    <th>سن</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="age_in_milladi_for_paper_nic"></td>
+                    <td id="age_in_qamari_for_paper_nic"></td>
+                    <td id="age_in_shamsi_for_paper_nic"></td>
+                    <td id="current_age_for_paper_nic"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h2 class="card-title">📜 تذکره کاغذی ➝ میلادی و قمری</h2>
+          <div class="inputs">
+            <input
+              id="How_Many_Years"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="چند ساله؟"
+              class="f-input"
+            />
+            <input
+              id="In_Which_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="کدام سال؟"
+              class="f-input"
+            />
+            <button
+              onclick="Convert_HejiriShamsi_date_to_Gregorian_and_islamic()"
+              class="primary-btn"
+            >
+              تبدیل
+            </button>
+          </div>
+        </section>
+
+        <!-- CARD 2 -->
+        <section
+          class="converter-card card-right"
+          data-index="1"
+          id="card-2"
+          aria-hidden="true"
+        >
+          <div class="result-panel">
+            <div class="result-head">
+              <div class="card-title">📊 نتیجه تبدیل</div>
+              <button class="btn-clear" title="پاک‌کردن">🧹</button>
+            </div>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>میلادی</th>
+                  <th>قمری</th>
+                  <th>هجری شمسی</th>
+                  <th>سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="age_in_milladi_for_paper_islamic_nic"></td>
+                  <td id="age_in_qamari_for_paper_islamic_nic"></td>
+                  <td id="age_in_shamsi_for_paper_islamic_nic"></td>
+                  <td id="current_age_for_paper_islamic_nic"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="card-title">🌙 قمری ➝ هجری شمسی و میلادی</h2>
+          <div class="inputs">
+            <input
+              id="Islamic_How_Many_Years"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="چند ساله؟"
+              class="f-input"
+            />
+            <input
+              id="Islamic_In_Which_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="کدام سال؟"
+              class="f-input"
+            />
+            <button
+              onclick="Convert_islamic_date_to_Gregorian_and_HejiriShamsi()"
+              class="primary-btn"
+            >
+              تبدیل
+            </button>
+            <div class="muted">سن باید بین 1 تا 120 باشد.</div>
+          </div>
+        </section>
+
+        <!-- CARD 3 -->
+        <section
+          class="converter-card card-off"
+          data-index="2"
+          id="card-3"
+          aria-hidden="true"
+        >
+          <div class="result-panel">
+            <div class="result-head">
+              <div class="card-title">📊 نتیجه تبدیل</div>
+              <button class="btn-clear" title="پاک‌کردن">🧹</button>
+            </div>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>میلادی</th>
+                  <th>قمری</th>
+                  <th>هجری شمسی</th>
+                  <th>سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="elc_age_in_milladi"></td>
+                  <td id="elc_age_in_qamari"></td>
+                  <td id="elc_age_in_shamsi"></td>
+                  <td id="elc_current_age"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="card-title">☀️ هجری شمسی ➝ میلادی و قمری</h2>
+          <div class="inputs">
+            <input
+              id="S_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="سال هجری شمسی؟"
+              class="f-input"
+            />
+            <button onclick="electronic_nic()" class="primary-btn">
+              تبدیل
+            </button>
+          </div>
+        </section>
+
+        <!-- CARD 4 -->
+        <section
+          class="converter-card card-left"
+          data-index="3"
+          id="card-4"
+          aria-hidden="true"
+        >
+          <div class="result-panel">
+            <div class="result-head">
+              <div class="card-title">📊 نتیجه تبدیل</div>
+              <button class="btn-clear" title="پاک‌کردن">🧹</button>
+            </div>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>میلادی</th>
+                  <th>قمری</th>
+                  <th>هجری شمسی</th>
+                  <th>سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="G_age_in_milladi"></td>
+                  <td id="G_age_in_qamari"></td>
+                  <td id="G_age_in_shamsi"></td>
+                  <td id="G_current_age"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="card-title">📅 میلادی ➝ قمری و هجری شمسی</h2>
+          <div class="inputs">
+            <input
+              id="G_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="سال میلادی؟"
+              class="f-input"
+            />
+            <button
+              onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
+              class="primary-btn"
+            >
+              تبدیل
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const root = document.documentElement;
+        const btn = document.getElementById("themeToggle");
+        const saved = localStorage.getItem("cri_theme");
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initial = saved ? saved : prefersDark ? "dark" : "light";
+        setTheme(initial);
+
+        function setTheme(name) {
+          if (name === "dark") {
+            root.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.setAttribute("aria-label", "حالت روشن");
+          } else {
+            root.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.setAttribute("aria-label", "حالت تاریک");
+          }
+          localStorage.setItem("cri_theme", name);
+        }
+        btn.addEventListener("click", () =>
+          setTheme(root.classList.contains("dark") ? "light" : "dark")
+        );
+      })();
+
+      (function () {
+        const a1 = document.querySelector(".ambient.a1");
+        const a2 = document.querySelector(".ambient.a2");
+        document.addEventListener("mousemove", function (e) {
+          const w = window.innerWidth,
+            h = window.innerHeight;
+          const x = (e.clientX - w / 2) / (w / 2);
+          const y = (e.clientY - h / 2) / (h / 2);
+          a1.style.transform = `translate3d(${x * 14}px, ${y * 10}px, 0)`;
+          a2.style.transform = `translate3d(${x * -10}px, ${y * -8}px, 0)`;
+        });
+      })();
+
+      let current = 0;
+      const $cards = $(".converter-card");
+      const N = $cards.length;
+      const $prevBtn = $("#prevOuter");
+      const $nextBtn = $("#nextOuter");
+
+      function idx(i) {
+        return (i + N) % N;
+      }
+
+      function applyClasses() {
+        $cards
+          .removeClass("card-active card-left card-right card-off")
+          .attr("aria-hidden", "true");
+
+        const center = idx(current);
+        const left = idx(current - 1);
+        const right = idx(current + 1);
+
+        $cards.eq(center).addClass("card-active").attr("aria-hidden", "false");
+        $cards.eq(left).addClass("card-left");
+        $cards.eq(right).addClass("card-right");
+
+        for (let i = 0; i < N; i++) {
+          if (i !== center && i !== left && i !== right) {
+            $cards.eq(i).addClass("card-off");
+          }
+        }
+        localStorage.setItem("cri_active_card", String(center));
+      }
+      function goRight() {
+        current = idx(current + 1);
+        applyClasses();
+        pulseActive();
+      }
+      function goLeft() {
+        current = idx(current - 1);
+        applyClasses();
+        pulseActive();
+      }
+      function pulseActive() {
+        const $active = $cards.eq(idx(current));
+        const $rp = $active.find(".result-panel");
+        $rp.addClass("pulse");
+        setTimeout(() => $rp.removeClass("pulse"), 850);
+      }
+
+      $prevBtn.on("click", goLeft);
+      $nextBtn.on("click", goRight);
+      $(document).on("keydown", (e) => {
+        if (e.key === "ArrowLeft") goLeft();
+        if (e.key === "ArrowRight") goRight();
+      });
+
+      const savedCard = parseInt(localStorage.getItem("cri_active_card"), 10);
+      if (!isNaN(savedCard) && savedCard >= 0 && savedCard < N) {
+        current = savedCard;
+      }
+      applyClasses();
+
+      function clearCard($card) {
+        $card.find("tbody td").text("");
+        $card.find('input[type="text"]').val("");
+        const first = $card.find('input[type="text"]').get(0);
+        if (first) first.focus();
+      }
+      $(document).on("click", ".btn-clear", function () {
+        clearCard($(this).closest(".converter-card"));
+      });
+
+      function swalErr(msg) {
+        Swal.fire({ icon: "error", title: "خطا", text: msg });
+      }
+
+      let todayInShamsiYear = new Date().toLocaleDateString("fa-IR-u-nu-latn");
+      const HejriShamsiArray = todayInShamsiYear.split("/");
+      let ShamsiCurrentYearInt = parseInt(HejriShamsiArray[0], 10);
+
+      let todayInIslamicYear = new Date().toLocaleDateString("ar-SA-u-nu-latn");
+      const islamiciArray_1 = todayInIslamicYear.split("/");
+      const islamiciArray_2 = islamiciArray_1[2].split(" ");
+      let islamicCurrentYearInt = parseInt(islamiciArray_2[0], 10);
+
+      let GregorianCurrentYear = new Date().getFullYear();
+
+      function validateAge(age) {
+        if (age === null || age === undefined || isNaN(age)) {
+          swalErr("لطفاً یک عدد معتبر وارد کنید.");
+          return false;
+        }
+        if (!isFinite(age) || age < 0 || age > 120) {
+          swalErr("سن باید بین 0 تا 120 سال باشد.");
+          return false;
+        }
+        return true;
+      }
+
+      /* Islamic ➝ Gregorian & Shamsi */
+      window.Convert_islamic_date_to_Gregorian_and_HejiriShamsi = function () {
+        let How_Many_Years = parseInt($("#Islamic_How_Many_Years").val(), 10);
+        let In_Which_Year = parseInt($("#Islamic_In_Which_Year").val(), 10);
+
+        if (!validateAge(How_Many_Years)) return false;
+        if (isNaN(In_Which_Year)) {
+          swalErr("لطفاً سال را معتبر وارد کنید.");
+          return false;
+        }
+
+        let Dob_islamic = In_Which_Year - How_Many_Years;
+        let Current_Age = islamicCurrentYearInt - Dob_islamic;
+        if (!validateAge(Current_Age)) return false;
+
+        let Dob_Gregorian = GregorianCurrentYear - Current_Age;
+        let x = parseInt(Dob_islamic * 11, 10);
+        let y = parseInt(x / 365, 10);
+        let Dob_HejriShamsi = parseInt(Dob_islamic - y, 10);
+
+        if (Dob_islamic > islamicCurrentYearInt) {
+          swalErr("کوشش معلوم نمودن سن غیرواقعی");
+          return false;
+        } else {
+          $("#current_age_for_paper_islamic_nic").text(Current_Age + " ساله");
+          $("#age_in_shamsi_for_paper_islamic_nic").text(Dob_HejriShamsi);
+          $("#age_in_milladi_for_paper_islamic_nic").text(Dob_Gregorian);
+          $("#age_in_qamari_for_paper_islamic_nic").text(Dob_islamic);
+          $("#Islamic_In_Which_Year").val("");
+          $("#Islamic_How_Many_Years").val("");
+          $("#Islamic_How_Many_Years").focus();
+          pulseActive();
+        }
+      };
+
+      /* Shamsi ➝ Gregorian & Islamic (paper NIC) */
+      window.Convert_HejiriShamsi_date_to_Gregorian_and_islamic = function () {
+        let How_Many_Years = parseInt($("#How_Many_Years").val(), 10);
+        let In_Which_Year = parseInt($("#In_Which_Year").val(), 10);
+
+        if (!validateAge(How_Many_Years)) return false;
+        if (isNaN(In_Which_Year)) {
+          swalErr("لطفاً سال را معتبر وارد کنید.");
+          return false;
+        }
+
+        let Dob_HejriShamsi = In_Which_Year - How_Many_Years;
+        let Current_Age = ShamsiCurrentYearInt - Dob_HejriShamsi;
+        if (!validateAge(Current_Age)) return false;
+
+        let Dob_Gregorian = GregorianCurrentYear - Current_Age;
+        let x = parseInt(Dob_HejriShamsi * 11, 10);
+        let y = parseInt(x / 354, 10);
+        let Dob_islamic = parseInt(Dob_HejriShamsi + y, 10);
+
+        if (Dob_HejriShamsi > ShamsiCurrentYearInt) {
+          swalErr("کوشش معلوم نمودن سن غیرواقعی");
+          return false;
+        } else {
+          $("#current_age_for_paper_nic").text(Current_Age + " ساله");
+          $("#age_in_shamsi_for_paper_nic").text(Dob_HejriShamsi);
+          $("#age_in_milladi_for_paper_nic").text(Dob_Gregorian);
+          $("#age_in_qamari_for_paper_nic").text(Dob_islamic);
+          $("#In_Which_Year").val("");
+          $("#How_Many_Years").val("");
+          $("#How_Many_Years").focus();
+          pulseActive();
+        }
+      };
+
+      /* Gregorian ➝ Islamic & Shamsi */
+      window.Convert_Gregorian_date_to_islamic_and_HejiriShamsi = function () {
+        let Which_Year = parseInt($("#G_Year").val(), 10);
+        if (isNaN(Which_Year)) {
+          swalErr("لطفاً سال معتبر وارد کنید.");
+          $("#G_Year").focus();
+          return;
+        }
+
+        let current_age = GregorianCurrentYear - Which_Year;
+        if (!validateAge(current_age)) return;
+
+        if (Which_Year < GregorianCurrentYear - 150) {
+          swalErr("سن بالاتر از 150 سال قابل محاسبه نمیباشد");
+          return;
+        } else {
+          let Dob_HejriShamsi = ShamsiCurrentYearInt - current_age;
+          let x = parseInt(Dob_HejriShamsi * 11, 10);
+          let y = parseInt(x / 354, 10);
+          let Dob_islamic = parseInt(Dob_HejriShamsi + y, 10);
+
+          if (Which_Year > GregorianCurrentYear) {
+            swalErr("کوشش معلوم نمودن سن غیرواقعی");
+            $("#G_Year").val("").focus();
+            return false;
+          } else {
+            $("#G_age_in_milladi").text(Which_Year);
+            $("#G_age_in_qamari").text(Dob_islamic);
+            $("#G_age_in_shamsi").text(Dob_HejriShamsi);
+            $("#G_current_age").text(current_age + " ساله");
+            $("#G_Year").val("").focus();
+            pulseActive();
+          }
+        }
+      };
+
+      /* Electronic NIC (Shamsi ➝ all) */
+      window.electronic_nic = function () {
+        let S_Year = parseInt($("#S_Year").val(), 10);
+        if (isNaN(S_Year)) {
+          swalErr("لطفاً سال معتبر وارد کنید.");
+          $("#S_Year").focus();
+          return;
+        }
+
+        let current_age = ShamsiCurrentYearInt - S_Year;
+        if (!validateAge(current_age)) return;
+
+        if (S_Year < ShamsiCurrentYearInt - 150) {
+          swalErr("سن بالاتر از 150 سال قابل محاسبه نمیباشد");
+          return;
+        } else {
+          let Dob_HejriShamsi = ShamsiCurrentYearInt - current_age;
+          let Dob_Gregorian = GregorianCurrentYear - current_age;
+          let x = parseInt(Dob_HejriShamsi * 11, 10);
+          let y = parseInt(x / 354, 10);
+          let Dob_islamic = parseInt(Dob_HejriShamsi + y, 10);
+
+          $("#elc_age_in_milladi").text(Dob_Gregorian);
+          $("#elc_age_in_qamari").text(Dob_islamic);
+          $("#elc_age_in_shamsi").text(Dob_HejriShamsi);
+          $("#elc_current_age").text(current_age + " ساله");
+          $("#S_Year").val("").focus();
+          pulseActive();
+        }
+      };
+
+      $(document).ready(function () {
+        $("#How_Many_Years").focus();
+        function onlyNumber(id) {
+          $(id).on("input", function () {
+            let v = $(this).val();
+            if (v !== "" && !/^[0-9]+$/.test(v)) {
+              $(this).val(v.replace(/[^0-9]/g, ""));
+              Swal.fire({
+                icon: "error",
+                title: "خطا",
+                text: ".سن شخص دارای حروف نمیباشد",
+                footer: ".تنها اعداد قابل محاسبه سن یک شخص میباشد",
+              });
+            }
+          });
+        }
+        onlyNumber("#How_Many_Years");
+        onlyNumber("#In_Which_Year");
+        onlyNumber("#Islamic_How_Many_Years");
+        onlyNumber("#Islamic_In_Which_Year");
+        onlyNumber("#G_Year");
+        onlyNumber("#S_Year");
+      });
+    </script>
+  </body>
+</html>

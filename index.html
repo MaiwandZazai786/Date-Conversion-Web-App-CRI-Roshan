@@ -2,13 +2,23 @@
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"
+    />
     <link
       href="https://play-lh.googleusercontent.com/ggJqF-yUv7EHk9Vt-2LBk8BcSlZRzdwZK-u0atAOUGgzksx2P0y3C0Je7ueDCd3BfA"
       rel="icon"
       type="image/x-icon"
     />
     <title>ROSHAN - CRI DATE CONVERTER</title>
+
+    <!-- TailwindCSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = { darkMode: "class" };
+    </script>
 
     <!-- jQuery & SweetAlert2 -->
     <script
@@ -17,584 +27,60 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <style>
-      :root {
-        --c-bg: #f4f7fb;
-        --c-ink: #0f172a;
-        --c-ink-dim: #475569;
-
-        --ovl-1: rgba(99, 102, 241, 0.16);
-        --ovl-2: rgba(239, 68, 68, 0.12);
-
-        --cardA: rgba(255, 255, 255, 0.94);
-        --cardB: rgba(255, 255, 255, 0.86);
-        --stroke: rgba(15, 23, 42, 0.1);
-        --shadow: 0 22px 60px rgba(15, 23, 42, 0.14),
-          0 6px 20px rgba(15, 23, 42, 0.08);
-
-        --panelA: rgba(255, 255, 255, 0.94);
-        --panelB: rgba(255, 255, 255, 0.86);
-        --panel-stroke: rgba(15, 23, 42, 0.1);
-        --panel-inset: inset 0 -4px 14px rgba(2, 6, 23, 0.05);
-
-        --inputA: rgba(255, 255, 255, 0.98);
-        --inputB: rgba(255, 255, 255, 0.92);
-        --input-stroke: rgba(15, 23, 42, 0.12);
-        --placeholder: #7b8496;
-
-        --accent-blue: 0 122 255;
-        --accent-indigo: 99 102 241;
-        --accent-red: 239 68 68;
-
-        --btn-grad: linear-gradient(
-          135deg,
-          rgba(0, 128, 255, 1) 0%,
-          rgba(30, 115, 255, 1) 45%,
-          rgba(55, 105, 255, 1) 100%
-        );
-        --btn-grad-hover: linear-gradient(
-          135deg,
-          rgba(0, 136, 255, 1) 0%,
-          rgba(38, 123, 255, 1) 45%,
-          rgba(63, 113, 255, 1) 100%
-        );
-        --btn-ink: #ffffff;
-
-        --nav-grad: linear-gradient(
-          135deg,
-          rgba(0, 128, 255, 0.95) 0%,
-          rgba(99, 102, 241, 0.95) 100%
-        );
-        --nav-ink: #0f172a;
-        --nav-ink-hover: #ffffff;
-
-        --logo-ink: #0f172a;
-        --logo-grad: linear-gradient(
-          135deg,
-          rgba(99, 102, 241, 1),
-          rgba(239, 68, 68, 1)
-        );
-
-        --blur-side: 1px;
-        --scale-side: 0.95;
-        --tilt: 10deg;
-
-        --wrap-h: 640px;
-        --card-h: 560px;
-        --card-w: 740px;
-        --edge-gap: 14px;
-      }
-      :root.dark {
-        --c-bg: #070e1f;
-        --c-ink: #e6eef7;
-        --c-ink-dim: #c9d3e3;
-
-        --ovl-1: rgba(99, 102, 241, 0.22);
-        --ovl-2: rgba(239, 68, 68, 0.18);
-
-        --cardA: rgba(255, 255, 255, 0.07);
-        --cardB: rgba(255, 255, 255, 0.045);
-        --stroke: rgba(255, 255, 255, 0.06);
-        --shadow: 0 32px 100px rgba(2, 6, 23, 0.65),
-          0 10px 28px rgba(99, 102, 241, 0.1);
-
-        --panelA: rgba(255, 255, 255, 0.04);
-        --panelB: rgba(255, 255, 255, 0.02);
-        --panel-stroke: rgba(255, 255, 255, 0.06);
-        --panel-inset: inset 0 -6px 16px rgba(2, 6, 23, 0.12);
-
-        --inputA: rgba(255, 255, 255, 0.04);
-        --inputB: rgba(255, 255, 255, 0.02);
-        --input-stroke: rgba(255, 255, 255, 0.06);
-        --placeholder: rgba(231, 236, 247, 0.66);
-
-        --nav-grad: linear-gradient(
-          135deg,
-          rgba(0, 128, 255, 0.96) 0%,
-          rgba(99, 102, 241, 0.96) 100%
-        );
-        --nav-ink: #ffffff;
-        --nav-ink-hover: #eaf1ff;
-
-        --logo-ink: #ffffff;
-      }
-
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        margin: 0;
-        font-family: Tahoma, Vazirmatn, system-ui, -apple-system, "Segoe UI",
-          Roboto, "Noto Sans Arabic", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background: radial-gradient(
-            1200px 520px at 110% -10%,
-            var(--ovl-1),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 520px at -10% 110%,
-            var(--ovl-2),
-            transparent 55%
-          ),
-          radial-gradient(
-            1400px 1200px at 50% -30%,
-            rgba(0, 0, 0, 0.06),
-            transparent 60%
-          ),
-          radial-gradient(
-            1400px 1200px at 50% 130%,
-            rgba(0, 0, 0, 0.06),
-            transparent 60%
-          ),
-          var(--c-bg);
-        color: var(--c-ink);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 28px;
-        overflow: hidden;
-        transition: background 0.1s ease, color 0.1s ease;
-      }
-
-      .ambient {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px) saturate(135%);
-        pointer-events: none;
-        opacity: 0.25;
-        z-index: 0;
-        transition: transform 0.25s ease;
-        will-change: transform;
-      }
-      .ambient.a1 {
-        width: 540px;
-        height: 540px;
-        right: -6%;
-        top: -10%;
+  </head>
+  <body
+    class="min-h-screen w-full overflow-x-hidden bg-slate-50 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-100"
+  >
+    <div
+      class="ambient a1 pointer-events-none fixed right-[-6%] top-[-10%] z-0 h-[540px] w-[540px] rounded-full opacity-30 blur-3xl"
+      style="
         background: radial-gradient(
           circle at 30% 30%,
-          rgba(var(--accent-indigo), 0.85),
-          rgba(var(--accent-red), 0.45) 55%,
+          rgba(99, 102, 241, 0.85),
+          rgba(239, 68, 68, 0.45) 55%,
           transparent 70%
         );
-      }
-      .ambient.a2 {
-        width: 420px;
-        height: 420px;
-        left: -10%;
-        bottom: -6%;
+      "
+    ></div>
+    <div
+      class="ambient a2 pointer-events-none fixed bottom-[-6%] left-[-10%] z-0 h-[420px] w-[420px] rounded-full opacity-20 blur-3xl"
+      style="
         background: radial-gradient(
           circle at 60% 40%,
-          rgba(var(--accent-red), 0.75),
-          rgba(var(--accent-blue), 0.35) 55%,
+          rgba(239, 68, 68, 0.75),
+          rgba(0, 122, 255, 0.35) 55%,
           transparent 70%
         );
-        opacity: 0.18;
-      }
+      "
+    ></div>
 
-      .shell {
-        position: relative;
-        z-index: 10;
-        width: 100%;
-        max-width: 1000px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-      }
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-      .brand {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-      }
-      .logo {
-        width: 56px;
-        height: 56px;
-        border-radius: 12px;
-        background: var(--logo-grad);
-        box-shadow: 0 14px 40px rgba(2, 6, 23, 0.5);
-        display: grid;
-        place-items: center;
-        color: var(--logo-ink);
-        font-weight: 900;
-        letter-spacing: 0.5px;
-        transition: color 0.3s ease;
-        user-select: none;
-      }
-      h1 {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 900;
-        text-shadow: 0 8px 30px rgba(2, 6, 23, 0.16);
-      }
-
-      #themeToggle {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        border: 1px solid var(--stroke);
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.14),
-          rgba(255, 255, 255, 0.06)
-        );
-        display: grid;
-        place-items: center;
-        color: var(--c-ink);
-        font-weight: 800;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease,
-          background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
-      }
-      #themeToggle:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.24);
-      }
-      #themeToggle:active {
-        transform: scale(0.96);
-      }
-
-      .cards-wrap {
-        position: relative;
-        width: 100%;
-        height: var(--wrap-h);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        perspective: 1200px;
-        overflow: visible;
-      }
-
-      .converter-card {
-        position: absolute;
-        width: 100%;
-        max-width: var(--card-w);
-        height: var(--card-h);
-        border-radius: 22px;
-        padding: 26px;
-        z-index: 8;
-        overflow: hidden;
-        background: linear-gradient(180deg, var(--cardA), var(--cardB));
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(8px) saturate(140%);
-        transform-origin: center center;
-        transition: transform 0.46s cubic-bezier(0.2, 0.9, 0.2, 1),
-          opacity 0.35s ease;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        color: var(--c-ink);
-        will-change: transform, opacity;
-      }
-      .card-active {
-        opacity: 1;
-        pointer-events: auto;
-        z-index: 12;
-        transform: translateX(0) scale(1) rotateY(0deg);
-      }
-      .card-left,
-      .card-right {
-        opacity: 0.72;
-        pointer-events: none;
-        filter: blur(var(--blur-side));
-      }
-      .card-left {
-        transform: translateX(-56%) scale(var(--scale-side))
-          rotateY(var(--tilt));
-      }
-      .card-right {
-        transform: translateX(56%) scale(var(--scale-side))
-          rotateY(calc(-1 * var(--tilt)));
-      }
-      .card-off {
-        opacity: 0;
-        pointer-events: none;
-        transform: translateX(120%) scale(0.9) rotateY(-14deg);
-      }
-
-      .result-panel {
-        border-radius: 16px;
-        padding: 12px;
-        background: linear-gradient(180deg, var(--panelA), var(--panelB));
-        border: 1px solid var(--panel-stroke);
-        box-shadow: var(--panel-inset);
-        color: var(--c-ink);
-        transition: background 0.25s ease, color 0.25s ease,
-          border-color 0.25s ease;
-      }
-      .result-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-      .result-table {
-        width: 100%;
-        border-collapse: collapse;
-        color: inherit;
-      }
-      .result-table th {
-        font-weight: 800;
-        padding: 8px 6px;
-        opacity: 0.95;
-        font-size: 0.95rem;
-      }
-      .result-table td {
-        text-align: center;
-        font-weight: 700;
-        padding: 10px 6px;
-      }
-
-      .btn-clear {
-        padding: 8px 12px;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        background: linear-gradient(
-          135deg,
-          rgba(238, 90, 90, 1),
-          rgba(255, 125, 125, 1)
-        );
-        color: #fff;
-        font-weight: 800;
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.12s ease, filter 0.18s ease,
-          box-shadow 0.18s ease;
-        box-shadow: 0 12px 28px rgba(239, 68, 68, 0.28);
-      }
-      .btn-clear:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.03);
-        box-shadow: 0 16px 34px rgba(239, 68, 68, 0.33);
-      }
-      .btn-clear:active {
-        transform: translateY(0) scale(0.98);
-      }
-
-      .card-title {
-        font-size: 1.05rem;
-        font-weight: 900;
-      }
-      .muted {
-        font-size: 0.87rem;
-        color: var(--c-ink-dim);
-        transition: color 0.25s ease;
-      }
-
-      .inputs {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        margin-top: 6px;
-      }
-      .f-input {
-        padding: 14px 16px;
-        border-radius: 14px;
-        background: linear-gradient(180deg, var(--inputA), var(--inputB));
-        border: 1px solid var(--input-stroke);
-        color: var(--c-ink);
-        font-weight: 700;
-        outline: none;
-        transition: box-shadow 0.2s ease, transform 0.16s ease,
-          background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      }
-      .f-input::placeholder {
-        color: var(--placeholder);
-        font-weight: 600;
-      }
-      .f-input:focus {
-        box-shadow: 0 8px 30px rgba(30, 115, 255, 0.18),
-          0 0 14px rgba(55, 105, 255, 0.12);
-        transform: translateY(-1px);
-      }
-
-      .primary-btn {
-        --h: 48px;
-        min-height: var(--h);
-        padding: 0 18px;
-        border-radius: calc(var(--h) / 2 + 6px);
-        border: 0;
-        cursor: pointer;
-        font-weight: 900;
-        background: var(--btn-grad);
-        color: var(--btn-ink);
-        position: relative;
-        overflow: visible;
-        box-shadow: 0 14px 30px rgba(30, 115, 255, 0.28);
-        transition: transform 0.14s ease, box-shadow 0.18s ease,
-          filter 0.18s ease, background 0.18s ease;
-        will-change: transform;
-      }
-      .primary-btn:hover {
-        background: var(--btn-grad-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 18px 40px rgba(30, 115, 255, 0.34);
-        filter: brightness(1.02);
-      }
-      .primary-btn:active {
-        transform: translateY(0) scale(0.99);
-        box-shadow: 0 12px 26px rgba(30, 115, 255, 0.28);
-      }
-
-      .primary-btn::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.16),
-          rgba(255, 255, 255, 0) 46%
-        );
-        mix-blend-mode: screen;
-        pointer-events: none;
-        border-radius: inherit;
-      }
-
-      /* Reflection / glow under button — kept as requested */
-      .primary-btn::after {
-        content: "";
-        position: absolute;
-        left: 10%;
-        width: 80%;
-        height: 60%;
-        bottom: -32%;
-        background: radial-gradient(
-          ellipse at center,
-          rgba(255, 255, 255, 0.42),
-          rgba(255, 255, 255, 0) 60%
-        );
-        filter: blur(10px);
-        pointer-events: none;
-        transition: opacity 0.18s ease;
-        opacity: 0.85;
-      }
-      .primary-btn:active::after {
-        opacity: 0.65;
-      }
-      .pulse {
-        animation: pulseGlow 850ms ease-in-out 1;
-      }
-      @keyframes pulseGlow {
-        0% {
-          box-shadow: 0 8px 24px rgba(30, 115, 255, 0.08);
-        }
-        50% {
-          box-shadow: 0 24px 60px rgba(30, 115, 255, 0.24);
-        }
-        100% {
-          box-shadow: 0 8px 24px rgba(30, 115, 255, 0.08);
-        }
-      }
-
-      .outer-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 30;
-        width: 64px;
-        height: 64px;
-        border-radius: 18px;
-        display: grid;
-        place-items: center;
-        cursor: pointer;
-        background: var(--nav-grad);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        color: var(--nav-ink);
-        transition: transform 0.12s ease, box-shadow 0.18s ease,
-          color 0.18s ease, filter 0.18s ease;
-        overflow: hidden;
-        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22);
-        user-select: none;
-      }
-      .outer-nav svg {
-        width: 28px;
-        height: 28px;
-        color: currentColor;
-      }
-      .outer-nav.left {
-        left: var(--edge-gap);
-      }
-      .outer-nav.right {
-        right: var(--edge-gap);
-      }
-      .outer-nav:hover {
-        transform: translateY(calc(-50% - 1px));
-        filter: saturate(1.05) brightness(1.03);
-        color: var(--nav-ink-hover);
-        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.28);
-      }
-      .outer-nav:active {
-        transform: translateY(-50%) scale(0.98);
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          transition: none !important;
-          animation: none !important;
-        }
-      }
-
-      @media (max-width: 1024px) {
-        :root {
-          --card-w: 92vw;
-        }
-      }
-      @media (max-width: 560px) {
-        .shell {
-          padding: 10px;
-        }
-        .converter-card {
-          padding: 18px;
-          border-radius: 16px;
-        }
-        .outer-nav {
-          width: 56px;
-          height: 56px;
-          border-radius: 16px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="ambient a1"></div>
-    <div class="ambient a2"></div>
-
-    <div class="shell">
-      <header>
-        <div class="brand">
-          <div class="">
-            <img
-              src="https://play-lh.googleusercontent.com/ggJqF-yUv7EHk9Vt-2LBk8BcSlZRzdwZK-u0atAOUGgzksx2P0y3C0Je7ueDCd3BfA"
-              alt=""
-              width="70px"
-            />
-          </div>
-          <h1>🔄 تبدیل تاریخ</h1>
+    <div class="relative z-10 mx-auto flex max-w-[1000px] flex-col gap-4 p-4">
+      <!-- Header -->
+      <header class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <img
+            src="https://play-lh.googleusercontent.com/ggJqF-yUv7EHk9Vt-2LBk8BcSlZRzdwZK-u0atAOUGgzksx2P0y3C0Je7ueDCd3BfA"
+            alt=""
+            class="h-14 w-14 rounded-xl shadow-xl"
+          />
+          <h1 class="m-0 text-lg font-extrabold">🔄 تبدیل تاریخ</h1>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center">
-          <button id="themeToggle" aria-label="تغییر حالت" title="تغییر حالت">
+        <div class="flex items-center gap-2">
+          <button
+            id="themeToggle"
+            aria-label="تغییر حالت"
+            title="تغییر حالت"
+            class="grid h-12 w-12 place-items-center rounded-xl border border-slate-300 bg-white/50 text-slate-900 shadow-md backdrop-blur-md transition active:scale-95 dark:border-white/10 dark:bg-slate-800 dark:text-white"
+          >
             🌙
           </button>
         </div>
       </header>
 
-      <div class="cards-wrap" id="cards-container">
+      <div class="flex items-center justify-center gap-6 md:hidden">
         <button
-          class="outer-nav left"
-          id="prevOuter"
+          class="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transition hover:brightness-105 active:scale-95"
+          id="prevOuterMobile"
           aria-label="قبلی"
           title="قبلی"
         >
@@ -603,6 +89,7 @@
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
+            class="h-6 w-6"
           >
             <path
               d="M15 6L9 12L15 18"
@@ -613,8 +100,60 @@
             />
           </svg>
         </button>
+
         <button
-          class="outer-nav right"
+          class="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-lg transition hover:brightness-105 active:scale-95"
+          id="nextOuterMobile"
+          aria-label="بعدی"
+          title="بعدی"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            class="h-6 w-6"
+          >
+            <path
+              d="M9 6L15 12L9 18"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div
+        id="cards-container"
+        class="relative flex h-[640px] w-full items-center justify-center overflow-visible"
+      >
+        <button
+          class="hidden md:grid outer-nav left absolute z-30 h-14 w-14 place-items-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-xl transition hover:brightness-105 active:scale-95 md:top-1/2 md:left-3 md:-translate-x-0 md:-translate-y-1/2"
+          id="prevOuter"
+          aria-label="قبلی"
+          title="قبلی"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            class="h-7 w-7"
+          >
+            <path
+              d="M15 6L9 12L15 18"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <button
+          class="hidden md:grid outer-nav right absolute z-30 h-14 w-14 place-items-center rounded-2xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-xl transition hover:brightness-105 active:scale-95 md:top-1/2 md:right-3 md:left-auto md:translate-x-0 md:-translate-y-1/2"
           id="nextOuter"
           aria-label="بعدی"
           title="بعدی"
@@ -624,6 +163,7 @@
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
+            class="h-7 w-7"
           >
             <path
               d="M9 6L15 12L9 18"
@@ -635,215 +175,63 @@
           </svg>
         </button>
 
-        <!-- CARD 1 -->
-
+        <!-- CARD 1 (Paper NIC ➝ Gregorian & Islamic) -->
         <section
-          class="converter-card card-left"
-          data-index="3"
-          id="card-4"
-          aria-hidden="true"
-        >
-          <div class="result-panel">
-            <div class="result-head">
-              <div class="card-title">📊 نتیجه تبدیل</div>
-              <button class="btn-clear" title="پاک‌کردن">Reset 🧹</button>
-            </div>
-            <table class="result-table">
-              <thead>
-                <tr>
-                  <th>میلادی</th>
-                  <th>قمری</th>
-                  <th>هجری شمسی</th>
-                  <th>سن</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td id="G_age_in_milladi"></td>
-                  <td id="G_age_in_qamari"></td>
-                  <td id="G_age_in_shamsi"></td>
-                  <td id="G_current_age"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2 class="card-title">
-            📅تذکره الکترونیکی (میلادی) ➝ قمری و هجری شمسی
-          </h2>
-          <div class="inputs">
-            <input
-              id="G_Year"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              placeholder="سال میلادی؟"
-              class="f-input"
-              autocomplete="off"
-            />
-            <button
-              onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
-              class="primary-btn"
-            >
-              تبدیل
-            </button>
-          </div>
-        </section>
-
-        <!-- CARD 2 -->
-        <section
-          class="converter-card card-right"
-          data-index="1"
-          id="card-2"
-          aria-hidden="true"
-        >
-          <div class="result-panel">
-            <div class="result-head">
-              <div class="card-title">📊 نتیجه تبدیل</div>
-              <button class="btn-clear" title="پاک‌کردن">Reset 🧹</button>
-            </div>
-            <table class="result-table">
-              <thead>
-                <tr>
-                  <th>میلادی</th>
-                  <th>قمری</th>
-                  <th>هجری شمسی</th>
-                  <th>سن</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td id="age_in_milladi_for_paper_islamic_nic"></td>
-                  <td id="age_in_qamari_for_paper_islamic_nic"></td>
-                  <td id="age_in_shamsi_for_paper_islamic_nic"></td>
-                  <td id="current_age_for_paper_islamic_nic"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2 class="card-title">🌙 قمری ➝ هجری شمسی و میلادی</h2>
-          <div class="inputs">
-            <input
-              id="Islamic_How_Many_Years"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              placeholder="چند ساله؟"
-              class="f-input"
-              autocomplete="off"
-            />
-            <input
-              id="Islamic_In_Which_Year"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              placeholder="کدام سال؟"
-              class="f-input"
-              autocomplete="off"
-            />
-            <button
-              onclick="Convert_islamic_date_to_Gregorian_and_HejiriShamsi()"
-              class="primary-btn"
-            >
-              تبدیل
-            </button>
-            <div class="muted">سن باید بین 1 تا 120 باشد.</div>
-          </div>
-        </section>
-
-        <!-- CARD 3 -->
-        <section
-          class="converter-card card-off"
-          data-index="2"
-          id="card-3"
-          aria-hidden="true"
-        >
-          <div class="result-panel">
-            <div class="result-head">
-              <div class="card-title">📊 نتیجه تبدیل</div>
-              <button class="btn-clear" title="پاک‌کردن">Reset 🧹</button>
-            </div>
-            <table class="result-table">
-              <thead>
-                <tr>
-                  <th>میلادی</th>
-                  <th>قمری</th>
-                  <th>هجری شمسی</th>
-                  <th>سن</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td id="elc_age_in_milladi"></td>
-                  <td id="elc_age_in_qamari"></td>
-                  <td id="elc_age_in_shamsi"></td>
-                  <td id="elc_current_age"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2 class="card-title">☀️ هجری شمسی ➝ میلادی و قمری</h2>
-          <div class="inputs">
-            <input
-              id="S_Year"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              placeholder="سال هجری شمسی؟"
-              class="f-input"
-              autocomplete="off"
-            />
-            <button onclick="electronic_nic()" class="primary-btn">
-              تبدیل
-            </button>
-          </div>
-        </section>
-
-        <!-- CARD 4 -->
-        <section
-          class="converter-card card-active"
+          class="converter-card card-active absolute z-10 flex h-[560px] w-full max-w-[740px] flex-col gap-3 rounded-2xl border border-slate-200 bg-white/90 p-6 text-slate-900 shadow-2xl backdrop-blur-md transition dark:border-white/10 dark:bg-white/10 dark:text-white"
           data-index="0"
           id="card-1"
           aria-hidden="false"
         >
-          <div class="result-panel" aria-live="polite">
-            <div class="result-head">
-              <div class="card-title">📊 نتیجه تبدیل</div>
-              <button class="btn-clear" title="پاک‌کردن">Reset 🧹</button>
+          <div
+            class="result-panel rounded-xl border border-slate-200 bg-white/70 p-3 text-inherit shadow-inner transition dark:border-white/10 dark:bg-slate-900/50"
+            aria-live="polite"
+          >
+            <div
+              class="result-head mb-2 flex items-center justify-between gap-2"
+            >
+              <div class="card-title text-base font-extrabold">
+                📊 نتیجه تبدیل
+              </div>
+              <button
+                class="btn-clear rounded-lg bg-gradient-to-r from-red-500 to-rose-500 px-3 py-1.5 font-extrabold text-white shadow-md transition hover:brightness-105 active:scale-95"
+                title="پاک‌کردن"
+              >
+                Reset 🧹
+              </button>
             </div>
-            <div style="overflow: auto">
-              <table class="result-table">
-                <thead>
+            <div class="max-h-[300px] overflow-auto">
+              <table class="result-table w-full border-collapse text-center">
+                <thead class="text-sm font-extrabold opacity-95">
                   <tr>
-                    <th>میلادی</th>
-                    <th>قمری</th>
-                    <th>هجری شمسی</th>
-                    <th>سن</th>
+                    <th class="p-2">میلادی</th>
+                    <th class="p-2">قمری</th>
+                    <th class="p-2">هجری شمسی</th>
+                    <th class="p-2">سن</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td id="age_in_milladi_for_paper_nic"></td>
-                    <td id="age_in_qamari_for_paper_nic"></td>
-                    <td id="age_in_shamsi_for_paper_nic"></td>
-                    <td id="current_age_for_paper_nic"></td>
+                  <tr class="font-bold">
+                    <td id="age_in_milladi_for_paper_nic" class="p-2"></td>
+                    <td id="age_in_qamari_for_paper_nic" class="p-2"></td>
+                    <td id="age_in_shamsi_for_paper_nic" class="p-2"></td>
+                    <td id="current_age_for_paper_nic" class="p-2"></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <h2 class="card-title">📜 تذکره کاغذی ➝ میلادی و قمری</h2>
-          <div class="inputs">
+          <h2 class="card-title text-lg font-extrabold">
+            📜 تذکره کاغذی ➝ میلادی و قمری
+          </h2>
+          <div class="inputs mt-1 flex flex-col gap-3">
             <input
               id="How_Many_Years"
               type="text"
               inputmode="numeric"
               pattern="[0-9]*"
               placeholder="چند ساله؟"
-              class="f-input"
+              class="f-input rounded-xl border border-slate-300 bg-white/90 p-3 font-bold text-inherit shadow-sm outline-none transition focus:-translate-y-[1px] focus:ring-2 focus:ring-blue-500 dark:border-white/15 dark:bg-white/5"
               autocomplete="off"
             />
             <input
@@ -852,12 +240,222 @@
               inputmode="numeric"
               pattern="[0-9]*"
               placeholder="کدام سال؟"
-              class="f-input"
+              class="f-input rounded-xl border border-slate-300 bg-white/90 p-3 font-bold text-inherit shadow-sm outline-none transition focus:-translate-y-[1px] focus:ring-2 focus:ring-blue-500 dark:border-white/15 dark:bg-white/5"
               autocomplete="off"
             />
             <button
               onclick="Convert_HejiriShamsi_date_to_Gregorian_and_islamic()"
-              class="primary-btn"
+              class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
+            >
+              تبدیل
+            </button>
+          </div>
+        </section>
+
+        <!-- CARD 2 (Islamic ➝ Shamsi & Gregorian) -->
+        <section
+          class="converter-card card-right absolute z-10 flex h-[560px] w-full max-w-[740px] flex-col gap-3 rounded-2xl border border-slate-200 bg-white/90 p-6 text-slate-900 shadow-2xl backdrop-blur-md transition dark:border-white/10 dark:bg-white/10 dark:text-white"
+          data-index="1"
+          id="card-2"
+          aria-hidden="true"
+        >
+          <div
+            class="result-panel rounded-xl border border-slate-200 bg-white/70 p-3 text-inherit shadow-inner transition dark:border-white/10 dark:bg-slate-900/50"
+          >
+            <div
+              class="result-head mb-2 flex items-center justify-between gap-2"
+            >
+              <div class="card-title text-base font-extrabold">
+                📊 نتیجه تبدیل
+              </div>
+              <button
+                class="btn-clear rounded-lg bg-gradient-to-r from-red-500 to-rose-500 px-3 py-1.5 font-extrabold text-white shadow-md transition hover:brightness-105 active:scale-95"
+                title="پاک‌کردن"
+              >
+                Reset 🧹
+              </button>
+            </div>
+            <table class="result-table w-full border-collapse text-center">
+              <thead class="text-sm font-extrabold opacity-95">
+                <tr>
+                  <th class="p-2">میلادی</th>
+                  <th class="p-2">قمری</th>
+                  <th class="p-2">هجری شمسی</th>
+                  <th class="p-2">سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="font-bold">
+                  <td
+                    id="age_in_milladi_for_paper_islamic_nic"
+                    class="p-2"
+                  ></td>
+                  <td id="age_in_qamari_for_paper_islamic_nic" class="p-2"></td>
+                  <td id="age_in_shamsi_for_paper_islamic_nic" class="p-2"></td>
+                  <td id="current_age_for_paper_islamic_nic" class="p-2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="card-title text-lg font-extrabold">
+            🌙 قمری ➝ هجری شمسی و میلادی
+          </h2>
+          <div class="inputs mt-1 flex flex-col gap-3">
+            <input
+              id="Islamic_How_Many_Years"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="چند ساله؟"
+              class="f-input rounded-xl border border-slate-300 bg-white/90 p-3 font-bold text-inherit shadow-sm outline-none transition focus:-translate-y-[1px] focus:ring-2 focus:ring-blue-500 dark:border-white/15 dark:bg-white/5"
+              autocomplete="off"
+            />
+            <input
+              id="Islamic_In_Which_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="کدام سال؟"
+              class="f-input rounded-xl border border-slate-300 bg-white/90 p-3 font-bold text-inherit shadow-sm outline-none transition focus:-translate-y-[1px] focus:ring-2 focus:ring-blue-500 dark:border-white/15 dark:bg-white/5"
+              autocomplete="off"
+            />
+            <button
+              onclick="Convert_islamic_date_to_Gregorian_and_HejiriShamsi()"
+              class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
+            >
+              تبدیل
+            </button>
+            <div class="muted text-sm text-slate-500 dark:text-slate-300">
+              سن باید بین 1 تا 120 باشد.
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 3 (Shamsi ➝ Gregorian & Islamic, Electronic NIC) -->
+        <section
+          class="converter-card card-off absolute z-10 flex h-[560px] w-full max-w-[740px] flex-col gap-3 rounded-2xl border border-slate-200 bg-white/90 p-6 text-slate-900 shadow-2xl backdrop-blur-md transition dark:border-white/10 dark:bg-white/10 dark:text-white"
+          data-index="2"
+          id="card-3"
+          aria-hidden="true"
+        >
+          <div
+            class="result-panel rounded-xl border border-slate-200 bg-white/70 p-3 text-inherit shadow-inner transition dark:border-white/10 dark:bg-slate-900/50"
+          >
+            <div
+              class="result-head mb-2 flex items-center justify-between gap-2"
+            >
+              <div class="card-title text-base font-extrabold">
+                📊 نتیجه تبدیل
+              </div>
+              <button
+                class="btn-clear rounded-lg bg-gradient-to-r from-red-500 to-rose-500 px-3 py-1.5 font-extrabold text-white shadow-md transition hover:brightness-105 active:scale-95"
+                title="پاک‌کردن"
+              >
+                Reset 🧹
+              </button>
+            </div>
+            <table class="result-table w-full border-collapse text-center">
+              <thead class="text-sm font-extrabold opacity-95">
+                <tr>
+                  <th class="p-2">میلادی</th>
+                  <th class="p-2">قمری</th>
+                  <th class="p-2">هجری شمسی</th>
+                  <th class="p-2">سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="font-bold">
+                  <td id="elc_age_in_milladi" class="p-2"></td>
+                  <td id="elc_age_in_qamari" class="p-2"></td>
+                  <td id="elc_age_in_shamsi" class="p-2"></td>
+                  <td id="elc_current_age" class="p-2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="card-title text-lg font-extrabold">
+            ☀ هجری شمسی ➝ میلادی و قمری
+          </h2>
+          <div class="inputs mt-1 flex flex-col gap-3">
+            <input
+              id="S_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="سال هجری شمسی؟"
+              class="f-input rounded-xl border border-slate-300 bg-white/90 p-3 font-bold text-inherit shadow-sm outline-none transition focus:-translate-y-[1px] focus:ring-2 focus:ring-blue-500 dark:border-white/15 dark:bg-white/5"
+              autocomplete="off"
+            />
+            <button
+              onclick="electronic_nic()"
+              class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
+            >
+              تبدیل
+            </button>
+          </div>
+        </section>
+
+        <!-- CARD 4 (Gregorian ➝ Islamic & Shamsi) -->
+        <section
+          class="converter-card card-left absolute z-10 flex h-[560px] w-full max-w-[740px] flex-col gap-3 rounded-2xl border border-slate-200 bg-white/90 p-6 text-slate-900 shadow-2xl backdrop-blur-md transition dark:border-white/10 dark:bg-white/10 dark:text-white"
+          data-index="3"
+          id="card-4"
+          aria-hidden="true"
+        >
+          <div
+            class="result-panel rounded-xl border border-slate-200 bg-white/70 p-3 text-inherit shadow-inner transition dark:border-white/10 dark:bg-slate-900/50"
+          >
+            <div
+              class="result-head mb-2 flex items-center justify-between gap-2"
+            >
+              <div class="card-title text-base font-extrabold">
+                📊 نتیجه تبدیل
+              </div>
+              <button
+                class="btn-clear rounded-lg bg-gradient-to-r from-red-500 to-rose-500 px-3 py-1.5 font-extrabold text-white shadow-md transition hover:brightness-105 active:scale-95"
+                title="پاک‌کردن"
+              >
+                Reset 🧹
+              </button>
+            </div>
+            <table class="result-table w-full border-collapse text-center">
+              <thead class="text-sm font-extrabold opacity-95">
+                <tr>
+                  <th class="p-2">میلادی</th>
+                  <th class="p-2">قمری</th>
+                  <th class="p-2">هجری شمسی</th>
+                  <th class="p-2">سن</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="font-bold">
+                  <td id="G_age_in_milladi" class="p-2"></td>
+                  <td id="G_age_in_qamari" class="p-2"></td>
+                  <td id="G_age_in_shamsi" class="p-2"></td>
+                  <td id="G_current_age" class="p-2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="card-title text-lg font-extrabold">
+            📅تذکره الکترونیکی (میلادی) ➝ قمری و هجری شمسی
+          </h2>
+          <div class="inputs mt-1 flex flex-col gap-3">
+            <input
+              id="G_Year"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              placeholder="سال میلادی؟"
+              class="f-input rounded-xl border border-slate-300 bg-white/90 p-3 font-bold text-inherit shadow-sm outline-none transition focus:-translate-y-[1px] focus:ring-2 focus:ring-blue-500 dark:border-white/15 dark:bg-white/5"
+              autocomplete="off"
+            />
+            <button
+              onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
+              class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
               تبدیل
             </button>
@@ -880,7 +478,7 @@
         function setTheme(name) {
           if (name === "dark") {
             root.classList.add("dark");
-            btn.textContent = "☀️";
+            btn.textContent = "☀";
             btn.setAttribute("aria-label", "حالت روشن");
           } else {
             root.classList.remove("dark");
@@ -902,31 +500,81 @@
             h = window.innerHeight;
           const x = (e.clientX - w / 2) / (w / 2);
           const y = (e.clientY - h / 2) / (h / 2);
-          a1.style.transform = `translate3d(${x * 14}px, ${y * 10}px, 0)`;
-          a2.style.transform = `translate3d(${x * -10}px, ${y * -8}px, 0)`;
+          if (a1)
+            a1.style.transform = translate3d(`${x * 14}px, ${y * 10}px, 0`);
+          if (a2)
+            a2.style.transform = translate3d(`${x * -10}px, ${y * -8}px, 0`);
         });
       })();
 
       let current = 0;
       const $cards = $(".converter-card");
       const N = $cards.length;
-      const $prevBtn = $("#prevOuter");
-      const $nextBtn = $("#nextOuter");
+
+      const $prevBtn = $("#prevOuter, #prevOuterMobile");
+      const $nextBtn = $("#nextOuter, #nextOuterMobile");
 
       function idx(i) {
         return (i + N) % N;
       }
 
-      // NEW: focus helper — focuses first input inside active card
-      function focusFirstInputInActiveCard() {
-        const $active = $cards.eq(idx(current));
-        // only focus if the card is active and not aria-hidden
-        if (!$active.hasClass("card-active")) return;
-        const $first = $active.find('input[type="text"]').first();
-        if ($first.length) {
-          // slight delay to allow class transitions to settle
-          setTimeout(() => $first.trigger("focus"), 10);
+      function focusFirstInput($card) {
+        const $inputs = $card.find('input[type="text"]');
+        if ($inputs.length) {
+          const input = $inputs.get(0);
+          input.focus({ preventScroll: false });
+          // On small screens, ensure it sits in view nicely
+          if (window.innerWidth <= 480) {
+            setTimeout(() => {
+              input.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 50);
+          }
         }
+      }
+
+      function syncTailwindStates() {
+        const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+
+        $cards.each(function () {
+          const $el = $(this);
+
+          const isActive = $el.hasClass("card-active");
+          const isLeft = $el.hasClass("card-left");
+          const isRight = $el.hasClass("card-right");
+          const isOff = $el.hasClass("card-off");
+
+          $el.removeClass(
+            "hidden block opacity-0 opacity-80 opacity-100 " +
+              "scale-95 scale-100 -translate-x-1/2 translate-x-1/2 translate-x-0 " +
+              "blur-[1px] z-10 z-20 pointer-events-none"
+          );
+
+          if (!isDesktop) {
+            if (isActive) {
+              $el.addClass("block opacity-100 scale-100 translate-x-0 z-20");
+            } else {
+              $el.addClass("hidden");
+            }
+          } else {
+            $el.removeClass("hidden").addClass("block");
+            if (isActive) {
+              $el.addClass("opacity-100 scale-100 translate-x-0 z-20");
+            }
+            if (isLeft) {
+              $el.addClass(
+                "opacity-80 scale-95 -translate-x-1/2 blur-[1px] z-10 pointer-events-none"
+              );
+            }
+            if (isRight) {
+              $el.addClass(
+                "opacity-80 scale-95 translate-x-1/2 blur-[1px] z-10 pointer-events-none"
+              );
+            }
+            if (isOff) {
+              $el.addClass("opacity-0 pointer-events-none");
+            }
+          }
+        });
       }
 
       function applyClasses() {
@@ -938,7 +586,8 @@
         const left = idx(current - 1);
         const right = idx(current + 1);
 
-        $cards.eq(center).addClass("card-active").attr("aria-hidden", "false");
+        const $centerCard = $cards.eq(center);
+        $centerCard.addClass("card-active").attr("aria-hidden", "false");
         $cards.eq(left).addClass("card-left");
         $cards.eq(right).addClass("card-right");
 
@@ -949,9 +598,11 @@
         }
         localStorage.setItem("cri_active_card", String(center));
 
-        // NEW: auto-focus the first input when the active card changes
-        focusFirstInputInActiveCard();
+        focusFirstInput($centerCard);
+
+        syncTailwindStates();
       }
+
       function goRight() {
         current = idx(current + 1);
         applyClasses();
@@ -985,8 +636,7 @@
       function clearCard($card) {
         $card.find("tbody td").text("");
         $card.find('input[type="text"]').val("");
-        const first = $card.find('input[type="text"]').get(0);
-        if (first) first.focus();
+        focusFirstInput($card);
       }
       $(document).on("click", ".btn-clear", function () {
         clearCard($(this).closest(".converter-card"));
@@ -1019,7 +669,6 @@
         return true;
       }
 
-      /* Islamic ➝ Gregorian & Shamsi */
       window.Convert_islamic_date_to_Gregorian_and_HejiriShamsi = function () {
         let How_Many_Years = parseInt($("#Islamic_How_Many_Years").val(), 10);
         let In_Which_Year = parseInt($("#Islamic_In_Which_Year").val(), 10);
@@ -1054,7 +703,6 @@
         }
       };
 
-      /* Shamsi ➝ Gregorian & Islamic (paper NIC) */
       window.Convert_HejiriShamsi_date_to_Gregorian_and_islamic = function () {
         let How_Many_Years = parseInt($("#How_Many_Years").val(), 10);
         let In_Which_Year = parseInt($("#In_Which_Year").val(), 10);
@@ -1089,7 +737,6 @@
         }
       };
 
-      /* Gregorian ➝ Islamic & Shamsi */
       window.Convert_Gregorian_date_to_islamic_and_HejiriShamsi = function () {
         let Which_Year = parseInt($("#G_Year").val(), 10);
         if (isNaN(Which_Year)) {
@@ -1125,7 +772,6 @@
         }
       };
 
-      /* Electronic NIC (Shamsi ➝ all) */
       window.electronic_nic = function () {
         let S_Year = parseInt($("#S_Year").val(), 10);
         if (isNaN(S_Year)) {
@@ -1156,40 +802,7 @@
         }
       };
 
-      // NEW: Enter key handling inside each card's inputs
-      // - If there is a next input in the same card -> focus it
-      // - If it's the last input -> trigger the same function as the card's submit (click the .primary-btn)
-      $(document).on(
-        "keydown",
-        ".converter-card input[type='text']",
-        function (e) {
-          if (e.key === "Enter" || e.keyCode === 13) {
-            e.preventDefault();
-            const $card = $(this).closest(".converter-card");
-            // Only act for the active card to avoid odd jumps
-            if (!$card.hasClass("card-active")) return;
-
-            const $inputs = $card.find("input[type='text']");
-            const i = $inputs.index(this);
-
-            if (i > -1 && i < $inputs.length - 1) {
-              // Jump to next input
-              $inputs.eq(i + 1).focus();
-            } else {
-              // Last input -> trigger submit button (same function as onclick)
-              const $btn = $card.find(".primary-btn").first();
-              if ($btn.length) {
-                $btn.trigger("click");
-              }
-            }
-          }
-        }
-      );
-
       $(document).ready(function () {
-        // Initial focus on the first input of the current active card
-        focusFirstInputInActiveCard();
-
         function onlyNumber(id) {
           $(id).on("input", function () {
             let v = $(this).val();
@@ -1211,6 +824,29 @@
         onlyNumber("#Islamic_In_Which_Year");
         onlyNumber("#G_Year");
         onlyNumber("#S_Year");
+
+        focusFirstInput($(".converter-card.card-active"));
+
+        $(document).on(
+          "keydown",
+          '.converter-card input[type="text"]',
+          function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              const $card = $(this).closest(".converter-card");
+              const $inputs = $card.find('input[type="text"]');
+              const idxNow = $inputs.index(this);
+              if (idxNow < $inputs.length - 1) {
+                $inputs.eq(idxNow + 1).focus();
+              } else {
+                const $btn = $card.find(".primary-btn").first();
+                if ($btn.length) $btn.trigger("click");
+              }
+            }
+          }
+        );
+
+        window.addEventListener("resize", syncTailwindStates);
       });
     </script>
   </body>

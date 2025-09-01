@@ -678,6 +678,7 @@
               pattern="[0-9]*"
               placeholder="سال میلادی؟"
               class="f-input"
+              autocomplete="off"
             />
             <button
               onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
@@ -729,6 +730,7 @@
               pattern="[0-9]*"
               placeholder="چند ساله؟"
               class="f-input"
+              autocomplete="off"
             />
             <input
               id="Islamic_In_Which_Year"
@@ -737,6 +739,7 @@
               pattern="[0-9]*"
               placeholder="کدام سال؟"
               class="f-input"
+              autocomplete="off"
             />
             <button
               onclick="Convert_islamic_date_to_Gregorian_and_HejiriShamsi()"
@@ -789,6 +792,7 @@
               pattern="[0-9]*"
               placeholder="سال هجری شمسی؟"
               class="f-input"
+              autocomplete="off"
             />
             <button onclick="electronic_nic()" class="primary-btn">
               تبدیل
@@ -839,6 +843,7 @@
               pattern="[0-9]*"
               placeholder="چند ساله؟"
               class="f-input"
+              autocomplete="off"
             />
             <input
               id="In_Which_Year"
@@ -847,6 +852,7 @@
               pattern="[0-9]*"
               placeholder="کدام سال؟"
               class="f-input"
+              autocomplete="off"
             />
             <button
               onclick="Convert_HejiriShamsi_date_to_Gregorian_and_islamic()"
@@ -1135,7 +1141,7 @@
       };
 
       $(document).ready(function () {
-        $("#How_Many_Years").focus();
+        $("#G_Year").focus();
         function onlyNumber(id) {
           $(id).on("input", function () {
             let v = $(this).val();

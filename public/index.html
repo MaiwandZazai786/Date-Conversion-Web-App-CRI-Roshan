@@ -753,8 +753,8 @@
         let current_age = GregorianCurrentYear - Which_Year;
         if (!validateAge(current_age)) return;
 
-        if (Which_Year < GregorianCurrentYear - 150) {
-          swalErr("سن بالاتر از 150 سال قابل محاسبه نمیباشد");
+        if (Which_Year < GregorianCurrentYear - 120) {
+          swalErr("سن بالاتر از 120 سال قابل محاسبه نمیباشد");
           return;
         } else {
           let Dob_HejriShamsi = ShamsiCurrentYearInt - current_age;

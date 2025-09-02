@@ -537,7 +537,7 @@
       }
 
       function syncTailwindStates() {
-        const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+        const isDesktop = window.matchMedia("(min-width: 768px)").matches; // md breakpoint
 
         $cards.each(function () {
           const $el = $(this);
@@ -556,11 +556,12 @@
           if (!isDesktop) {
             if (isActive) {
               $el.addClass("block opacity-100 scale-100 translate-x-0 z-20");
+              $el.removeClass("pointer-events-none");
             } else {
               $el.addClass("hidden");
             }
           } else {
-            $el.removeClass("hidden").addClass("block");
+            $el.addClass("block");
             if (isActive) {
               $el.addClass("opacity-100 scale-100 translate-x-0 z-20");
             }
@@ -575,7 +576,7 @@
               );
             }
             if (isOff) {
-              $el.addClass("opacity-0 pointer-events-none");
+              $el.addClass("opacity-0 pointer-events-none z-10");
             }
           }
         });
@@ -787,8 +788,8 @@
         let current_age = ShamsiCurrentYearInt - S_Year;
         if (!validateAge(current_age)) return;
 
-        if (S_Year < ShamsiCurrentYearInt - 150) {
-          swalErr("سن بالاتر از 150 سال قابل محاسبه نمیباشد");
+        if (S_Year < ShamsiCurrentYearInt - 120) {
+          swalErr("سن بالاتر از 120 سال قابل محاسبه نمیباشد");
           return;
         } else {
           let Dob_HejriShamsi = ShamsiCurrentYearInt - current_age;

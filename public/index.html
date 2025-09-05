@@ -620,7 +620,6 @@
         if ($inputs.length) {
           const input = $inputs.get(0);
           input.focus({ preventScroll: false });
-          // On small screens, ensure it sits in view nicely
           if (window.innerWidth <= 480) {
             setTimeout(() => {
               input.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -630,7 +629,7 @@
       }
 
       function syncTailwindStates() {
-        const isDesktop = window.matchMedia("(min-width: 768px)").matches; // md breakpoint
+        const isDesktop = window.matchMedia("(min-width: 768px)").matches;
 
         $cards.each(function () {
           const $el = $(this);
@@ -740,7 +739,6 @@
         clearCard($(this).closest(".converter-card"));
       });
 
-      /* ---------- Robust current-year detection (mobile-safe) ---------- */
       const GregorianCurrentYear = new Date().getFullYear();
 
       function getYearFromIntl(locale) {
@@ -758,15 +756,13 @@
       }
 
       function getPersianYear() {
-        // Prefer native Intl with Persian calendar & Latin digits
         const yIntl =
           getYearFromIntl("fa-IR-u-ca-persian-nu-latn") ||
           getYearFromIntl("fa-IR-u-nu-latn-ca-persian");
         if (yIntl) return yIntl;
 
-        // Fallback: rough Nowruz-based conversion (close enough for age math)
         const now = new Date();
-        const approxNowruz = new Date(now.getFullYear(), 2, 20); // ~ March 20
+        const approxNowruz = new Date(now.getFullYear(), 2, 20);
         let y = now.getFullYear() - 621;
         if (now < approxNowruz) y -= 1;
         return y;
@@ -788,18 +784,16 @@
       }
 
       function getIslamicYear() {
-        // Prefer native Intl with Islamic calendar & Latin digits
         const yIntl = getYearFromIntl("ar-SA-u-ca-islamic-nu-latn");
         if (yIntl) return yIntl;
 
-        // Fallback: Kuwaiti algorithm (year only)
         const now = new Date();
         const jd = gregorianToJD(
           now.getFullYear(),
           now.getMonth() + 1,
           now.getDate()
         );
-        // conversion adapted to compute Hijri year
+
         let l = jd - 1948440 + 10632;
         const n = Math.floor((l - 1) / 10631);
         l = l - 10631 * n + 354;
@@ -818,14 +812,13 @@
       let ShamsiCurrentYearInt = getPersianYear();
       let islamicCurrentYearInt = getIslamicYear();
 
-      /* ---------------------- Digit normalization helpers ---------------------- */
       function normalizeDigits(str) {
         if (!str) return "";
-        // Arabic-Indic ٠-٩ and Persian ۰-۹ to ASCII 0-9
+
         return String(str)
           .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 1632))
           .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 1776))
-          .replace(/\s+/g, ""); // remove spaces
+          .replace(/\s+/g, "");
       }
       function readInt(selector) {
         const $el = $(selector);
@@ -836,7 +829,6 @@
         return Number.isFinite(n) ? n : NaN;
       }
 
-      /* ---------------------- Converters (validated) ---------------------- */
       function validateAge(age) {
         if (age === null || age === undefined || isNaN(age)) {
           swalErr("لطفاً یک عدد معتبر وارد کنید.");
@@ -990,14 +982,12 @@
             if (norm !== raw) $(this).val(norm);
 
             if (norm !== "" && !/^[0-9]+$/.test(norm)) {
-              // keep your existing alert content
               showSwal({
                 icon: "error",
                 title: "خطا",
                 text: ".سن شخص دارای حروف نمیباشد",
                 footer: ".تنها اعداد قابل محاسبه سن یک شخص میباشد",
               });
-              // strip all non-digits to keep field clean
               $(this).val(norm.replace(/[^0-9]/g, ""));
             }
           });
@@ -1031,13 +1021,11 @@
           }
         );
 
-        /* --------- MOBILE-FIXED: reliable tap handling on buttons --------- */
         function bindSmartPress(selector, handler) {
           const $btn = $(selector);
           let suppressNextClick = false;
           let recentlyHandled = false;
 
-          // Desktop & general click
           $btn.on("click", function (e) {
             if (suppressNextClick) {
               suppressNextClick = false;
@@ -1068,14 +1056,13 @@
               function (e) {
                 if (e.pointerType === "touch") {
                   e.preventDefault();
-                  suppressNextClick = true; // prevent follow-up synthetic click
+                  suppressNextClick = true;
                   runOnce(e);
                 }
               },
               { passive: false }
             );
           } else {
-            // Fallback for older iOS (no Pointer Events)
             el.addEventListener(
               "touchend",
               function (e) {
@@ -1101,10 +1088,6 @@
           "#btn-card4",
           Convert_Gregorian_date_to_islamic_and_HejiriShamsi
         );
-
-        // NOTE: outer nav clicks already bound above; do not bind twice.
-
-        // Keep layout in sync
         window.addEventListener("resize", syncTailwindStates);
       });
     </script>

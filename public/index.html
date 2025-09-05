@@ -740,17 +740,103 @@
         clearCard($(this).closest(".converter-card"));
       });
 
-      let todayInShamsiYear = new Date().toLocaleDateString("fa-IR-u-nu-latn");
-      const HejriShamsiArray = todayInShamsiYear.split("/");
-      let ShamsiCurrentYearInt = parseInt(HejriShamsiArray[0], 10);
+      /* ---------- Robust current-year detection (mobile-safe) ---------- */
+      const GregorianCurrentYear = new Date().getFullYear();
 
-      let todayInIslamicYear = new Date().toLocaleDateString("ar-SA-u-nu-latn");
-      const islamiciArray_1 = todayInIslamicYear.split("/");
-      const islamiciArray_2 = islamiciArray_1[2].split(" ");
-      let islamicCurrentYearInt = parseInt(islamiciArray_2[0], 10);
+      function getYearFromIntl(locale) {
+        try {
+          const parts = new Intl.DateTimeFormat(locale, {
+            year: "numeric",
+          }).formatToParts(new Date());
+          const yPart = parts.find((p) => p.type === "year");
+          const y = yPart && yPart.value;
+          const n = parseInt(y, 10);
+          return Number.isFinite(n) ? n : null;
+        } catch (e) {
+          return null;
+        }
+      }
 
-      let GregorianCurrentYear = new Date().getFullYear();
+      function getPersianYear() {
+        // Prefer native Intl with Persian calendar & Latin digits
+        const yIntl =
+          getYearFromIntl("fa-IR-u-ca-persian-nu-latn") ||
+          getYearFromIntl("fa-IR-u-nu-latn-ca-persian");
+        if (yIntl) return yIntl;
 
+        // Fallback: rough Nowruz-based conversion (close enough for age math)
+        const now = new Date();
+        const approxNowruz = new Date(now.getFullYear(), 2, 20); // ~ March 20
+        let y = now.getFullYear() - 621;
+        if (now < approxNowruz) y -= 1;
+        return y;
+      }
+
+      function gregorianToJD(y, m, d) {
+        const a = Math.floor((14 - m) / 12);
+        const y2 = y + 4800 - a;
+        const m2 = m + 12 * a - 3;
+        return (
+          d +
+          Math.floor((153 * m2 + 2) / 5) +
+          365 * y2 +
+          Math.floor(y2 / 4) -
+          Math.floor(y2 / 100) +
+          Math.floor(y2 / 400) -
+          32045
+        );
+      }
+
+      function getIslamicYear() {
+        // Prefer native Intl with Islamic calendar & Latin digits
+        const yIntl = getYearFromIntl("ar-SA-u-ca-islamic-nu-latn");
+        if (yIntl) return yIntl;
+
+        // Fallback: Kuwaiti algorithm (year only)
+        const now = new Date();
+        const jd = gregorianToJD(
+          now.getFullYear(),
+          now.getMonth() + 1,
+          now.getDate()
+        );
+        // conversion adapted to compute Hijri year
+        let l = jd - 1948440 + 10632;
+        const n = Math.floor((l - 1) / 10631);
+        l = l - 10631 * n + 354;
+        const j =
+          Math.floor((10985 - l) / 5316) * Math.floor((50 * l) / 17719) +
+          Math.floor(l / 5670) * Math.floor((43 * l) / 15238);
+        l =
+          l -
+          Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
+          Math.floor(j / 16) * Math.floor((15238 * j) / 43) +
+          29;
+        const hijriYear = 30 * n + j - 30;
+        return hijriYear;
+      }
+
+      let ShamsiCurrentYearInt = getPersianYear();
+      let islamicCurrentYearInt = getIslamicYear();
+
+      /* ---------------------- Digit normalization helpers ---------------------- */
+      function normalizeDigits(str) {
+        if (!str) return "";
+        // Arabic-Indic ٠-٩ and Persian ۰-۹ to ASCII 0-9
+        return String(str)
+          .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 1632))
+          .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 1776))
+          .replace(/\s+/g, ""); // remove spaces
+      }
+      function readInt(selector) {
+        const $el = $(selector);
+        const raw = $el.val();
+        const norm = normalizeDigits(raw);
+        if (norm !== raw) $el.val(norm);
+        const n = parseInt(norm, 10);
+        return Number.isFinite(n) ? n : NaN;
+      }
+
+      /* ---------------------- Converters (validated) ---------------------- */
       function validateAge(age) {
         if (age === null || age === undefined || isNaN(age)) {
           swalErr("لطفاً یک عدد معتبر وارد کنید.");
@@ -764,8 +850,8 @@
       }
 
       window.Convert_islamic_date_to_Gregorian_and_HejiriShamsi = function () {
-        let How_Many_Years = parseInt($("#Islamic_How_Many_Years").val(), 10);
-        let In_Which_Year = parseInt($("#Islamic_In_Which_Year").val(), 10);
+        let How_Many_Years = readInt("#Islamic_How_Many_Years");
+        let In_Which_Year = readInt("#Islamic_In_Which_Year");
 
         if (!validateAge(How_Many_Years)) return false;
         if (isNaN(In_Which_Year)) {
@@ -798,8 +884,8 @@
       };
 
       window.Convert_HejiriShamsi_date_to_Gregorian_and_islamic = function () {
-        let How_Many_Years = parseInt($("#How_Many_Years").val(), 10);
-        let In_Which_Year = parseInt($("#In_Which_Year").val(), 10);
+        let How_Many_Years = readInt("#How_Many_Years");
+        let In_Which_Year = readInt("#In_Which_Year");
 
         if (!validateAge(How_Many_Years)) return false;
         if (isNaN(In_Which_Year)) {
@@ -832,7 +918,7 @@
       };
 
       window.Convert_Gregorian_date_to_islamic_and_HejiriShamsi = function () {
-        let Which_Year = parseInt($("#G_Year").val(), 10);
+        let Which_Year = readInt("#G_Year");
         if (isNaN(Which_Year)) {
           swalErr("لطفاً سال معتبر وارد کنید.");
           $("#G_Year").focus();
@@ -867,7 +953,7 @@
       };
 
       window.electronic_nic = function () {
-        let S_Year = parseInt($("#S_Year").val(), 10);
+        let S_Year = readInt("#S_Year");
         if (isNaN(S_Year)) {
           swalErr("لطفاً سال معتبر وارد کنید.");
           $("#S_Year").focus();
@@ -899,15 +985,20 @@
       $(document).ready(function () {
         function onlyNumber(id) {
           $(id).on("input", function () {
-            let v = $(this).val();
-            if (v !== "" && !/^[0-9]+$/.test(v)) {
-              $(this).val(v.replace(/[^0-9]/g, ""));
+            const raw = $(this).val();
+            const norm = normalizeDigits(raw);
+            if (norm !== raw) $(this).val(norm);
+
+            if (norm !== "" && !/^[0-9]+$/.test(norm)) {
+              // keep your existing alert content
               showSwal({
                 icon: "error",
                 title: "خطا",
                 text: ".سن شخص دارای حروف نمیباشد",
                 footer: ".تنها اعداد قابل محاسبه سن یک شخص میباشد",
               });
+              // strip all non-digits to keep field clean
+              $(this).val(norm.replace(/[^0-9]/g, ""));
             }
           });
         }
@@ -940,28 +1031,80 @@
           }
         );
 
-        $("#btn-card1").on(
-          "click",
+        /* --------- MOBILE-FIXED: reliable tap handling on buttons --------- */
+        function bindSmartPress(selector, handler) {
+          const $btn = $(selector);
+          let suppressNextClick = false;
+          let recentlyHandled = false;
+
+          // Desktop & general click
+          $btn.on("click", function (e) {
+            if (suppressNextClick) {
+              suppressNextClick = false;
+              e.stopImmediatePropagation();
+              e.preventDefault();
+              return;
+            }
+            handler.call(this, e);
+          });
+
+          const el = $btn.get(0);
+          if (!el) return;
+
+          const supportsPointer = !!(
+            window.PointerEvent || "onpointerup" in window
+          );
+
+          function runOnce(e) {
+            if (recentlyHandled) return;
+            recentlyHandled = true;
+            setTimeout(() => (recentlyHandled = false), 300);
+            handler.call(el, e);
+          }
+
+          if (supportsPointer) {
+            el.addEventListener(
+              "pointerup",
+              function (e) {
+                if (e.pointerType === "touch") {
+                  e.preventDefault();
+                  suppressNextClick = true; // prevent follow-up synthetic click
+                  runOnce(e);
+                }
+              },
+              { passive: false }
+            );
+          } else {
+            // Fallback for older iOS (no Pointer Events)
+            el.addEventListener(
+              "touchend",
+              function (e) {
+                e.preventDefault();
+                suppressNextClick = true;
+                runOnce(e);
+              },
+              { passive: false }
+            );
+          }
+        }
+
+        bindSmartPress(
+          "#btn-card1",
           Convert_HejiriShamsi_date_to_Gregorian_and_islamic
         );
-        $("#btn-card2").on(
-          "click",
+        bindSmartPress(
+          "#btn-card2",
           Convert_islamic_date_to_Gregorian_and_HejiriShamsi
         );
-        $("#btn-card3").on("click", electronic_nic);
-        $("#btn-card4").on(
-          "click",
+        bindSmartPress("#btn-card3", electronic_nic);
+        bindSmartPress(
+          "#btn-card4",
           Convert_Gregorian_date_to_islamic_and_HejiriShamsi
         );
 
-        $("#btn-card1, #btn-card2, #btn-card3, #btn-card4").on(
-          "touchend",
-          function (e) {
-            e.preventDefault();
-            $(this).trigger("click");
-          }
-        );
+        // NOTE: outer nav clicks already bound above; do not bind twice.
 
+        // Keep layout in sync
         window.addEventListener("resize", syncTailwindStates);
       });
     </script>

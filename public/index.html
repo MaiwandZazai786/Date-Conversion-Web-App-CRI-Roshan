@@ -6,6 +6,10 @@
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"
     />
+    <meta
+      name="format-detection"
+      content="telephone=no, date=no, email=no, address=no"
+    />
     <link
       href="https://play-lh.googleusercontent.com/ggJqF-yUv7EHk9Vt-2LBk8BcSlZRzdwZK-u0atAOUGgzksx2P0y3C0Je7ueDCd3BfA"
       rel="icon"
@@ -15,7 +19,6 @@
 
     <!-- TailwindCSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
@@ -27,7 +30,30 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      /* optional visual feedback when results update */
+      .result-panel.pulse {
+        animation: resultPulse 0.85s ease-out;
+      }
+      @keyframes resultPulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.45) inset,
+            0 0 0 0 rgba(59, 130, 246, 0.25);
+        }
+        100% {
+          box-shadow: 0 0 0 12px rgba(59, 130, 246, 0) inset,
+            0 0 0 18px rgba(59, 130, 246, 0);
+        }
+      }
+      /* faster taps on mobile */
+      .primary-btn {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
   </head>
+
   <body
     class="min-h-screen w-full overflow-x-hidden bg-slate-50 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-100"
   >
@@ -77,6 +103,7 @@
         </div>
       </header>
 
+      <!-- Mobile prev/next -->
       <div class="flex items-center justify-center gap-6 md:hidden">
         <button
           class="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transition hover:brightness-105 active:scale-95"
@@ -84,13 +111,7 @@
           aria-label="قبلی"
           title="قبلی"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="h-6 w-6"
-          >
+          <svg viewBox="0 0 24 24" fill="none" class="h-6 w-6">
             <path
               d="M15 6L9 12L15 18"
               stroke="currentColor"
@@ -107,13 +128,7 @@
           aria-label="بعدی"
           title="بعدی"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="h-6 w-6"
-          >
+          <svg viewBox="0 0 24 24" fill="none" class="h-6 w-6">
             <path
               d="M9 6L15 12L9 18"
               stroke="currentColor"
@@ -129,19 +144,14 @@
         id="cards-container"
         class="relative flex h-[640px] w-full items-center justify-center overflow-visible"
       >
+        <!-- Desktop Prev/Next -->
         <button
           class="hidden md:grid outer-nav left absolute z-30 h-14 w-14 place-items-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-xl transition hover:brightness-105 active:scale-95 md:top-1/2 md:left-3 md:-translate-x-0 md:-translate-y-1/2"
           id="prevOuter"
           aria-label="قبلی"
           title="قبلی"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="h-7 w-7"
-          >
+          <svg viewBox="0 0 24 24" fill="none" class="h-7 w-7">
             <path
               d="M15 6L9 12L15 18"
               stroke="currentColor"
@@ -158,13 +168,7 @@
           aria-label="بعدی"
           title="بعدی"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="h-7 w-7"
-          >
+          <svg viewBox="0 0 24 24" fill="none" class="h-7 w-7">
             <path
               d="M9 6L15 12L9 18"
               stroke="currentColor"
@@ -245,7 +249,7 @@
             />
             <button
               type="button"
-              onclick="Convert_HejiriShamsi_date_to_Gregorian_and_islamic()"
+              id="btn-card1"
               class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
               تبدیل
@@ -323,7 +327,7 @@
             />
             <button
               type="button"
-              onclick="Convert_islamic_date_to_Gregorian_and_HejiriShamsi()"
+              id="btn-card2"
               class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
               تبدیل
@@ -392,7 +396,7 @@
             />
             <button
               type="button"
-              onclick="electronic_nic()"
+              id="btn-card3"
               class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
               تبدیل
@@ -458,7 +462,7 @@
             />
             <button
               type="button"
-              onclick="Convert_Gregorian_date_to_islamic_and_HejiriShamsi()"
+              id="btn-card4"
               class="primary-btn relative inline-flex min-h-[46px] items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-extrabold text-white shadow-xl transition hover:-translate-y-[2px] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
               تبدیل
@@ -469,6 +473,7 @@
     </div>
 
     <script>
+      /* THEME TOGGLE */
       (function () {
         const root = document.documentElement;
         const btn = document.getElementById("themeToggle");
@@ -499,18 +504,23 @@
       (function () {
         const a1 = document.querySelector(".ambient.a1");
         const a2 = document.querySelector(".ambient.a2");
-        document.addEventListener("mousemove", function (e) {
-          const w = window.innerWidth,
-            h = window.innerHeight;
-          const x = (e.clientX - w / 2) / (w / 2);
-          const y = (e.clientY - h / 2) / (h / 2);
-          if (a1)
-            a1.style.transform = translate3d(`${x * 14}px, ${y * 10}px, 0`);
-          if (a2)
-            a2.style.transform = translate3d(`${x * -10}px, ${y * -8}px, 0`);
-        });
+        document.addEventListener(
+          "mousemove",
+          function (e) {
+            const w = window.innerWidth,
+              h = window.innerHeight;
+            const x = (e.clientX - w / 2) / (w / 2);
+            const y = (e.clientY - h / 2) / (h / 2);
+            if (a1)
+              a1.style.transform = `translate3d(${x * 14}px, ${y * 10}px, 0)`;
+            if (a2)
+              a2.style.transform = `translate3d(${x * -10}px, ${y * -8}px, 0)`;
+          },
+          { passive: true }
+        );
       })();
 
+      /* CARD LOGIC */
       let current = 0;
       const $cards = $(".converter-card");
       const N = $cards.length;
@@ -527,7 +537,6 @@
         if ($inputs.length) {
           const input = $inputs.get(0);
           input.focus({ preventScroll: false });
-          // On small screens, ensure it sits in view nicely
           if (window.innerWidth <= 480) {
             setTimeout(() => {
               input.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -538,10 +547,8 @@
 
       function syncTailwindStates() {
         const isDesktop = window.matchMedia("(min-width: 768px)").matches; // md breakpoint
-
         $cards.each(function () {
           const $el = $(this);
-
           const isActive = $el.hasClass("card-active");
           const isLeft = $el.hasClass("card-left");
           const isRight = $el.hasClass("card-right");
@@ -562,22 +569,17 @@
             }
           } else {
             $el.addClass("block");
-            if (isActive) {
+            if (isActive)
               $el.addClass("opacity-100 scale-100 translate-x-0 z-20");
-            }
-            if (isLeft) {
+            if (isLeft)
               $el.addClass(
                 "opacity-80 scale-95 -translate-x-1/2 blur-[1px] z-10 pointer-events-none"
               );
-            }
-            if (isRight) {
+            if (isRight)
               $el.addClass(
                 "opacity-80 scale-95 translate-x-1/2 blur-[1px] z-10 pointer-events-none"
               );
-            }
-            if (isOff) {
-              $el.addClass("opacity-0 pointer-events-none z-10");
-            }
+            if (isOff) $el.addClass("opacity-0 pointer-events-none z-10");
           }
         });
       }
@@ -586,25 +588,18 @@
         $cards
           .removeClass("card-active card-left card-right card-off")
           .attr("aria-hidden", "true");
-
         const center = idx(current);
         const left = idx(current - 1);
         const right = idx(current + 1);
-
         const $centerCard = $cards.eq(center);
         $centerCard.addClass("card-active").attr("aria-hidden", "false");
         $cards.eq(left).addClass("card-left");
         $cards.eq(right).addClass("card-right");
-
-        for (let i = 0; i < N; i++) {
-          if (i !== center && i !== left && i !== right) {
+        for (let i = 0; i < N; i++)
+          if (i !== center && i !== left && i !== right)
             $cards.eq(i).addClass("card-off");
-          }
-        }
         localStorage.setItem("cri_active_card", String(center));
-
         focusFirstInput($centerCard);
-
         syncTailwindStates();
       }
 
@@ -618,6 +613,7 @@
         applyClasses();
         pulseActive();
       }
+
       function pulseActive() {
         const $active = $cards.eq(idx(current));
         const $rp = $active.find(".result-panel");
@@ -633,9 +629,8 @@
       });
 
       const savedCard = parseInt(localStorage.getItem("cri_active_card"), 10);
-      if (!isNaN(savedCard) && savedCard >= 0 && savedCard < N) {
+      if (!isNaN(savedCard) && savedCard >= 0 && savedCard < N)
         current = savedCard;
-      }
       applyClasses();
 
       function clearCard($card) {
@@ -651,16 +646,70 @@
         Swal.fire({ icon: "error", title: "خطا", text: msg });
       }
 
-      let todayInShamsiYear = new Date().toLocaleDateString("fa-IR-u-nu-latn");
-      const HejriShamsiArray = todayInShamsiYear.split("/");
-      let ShamsiCurrentYearInt = parseInt(HejriShamsiArray[0], 10);
+      function getShamsiYearSafe() {
+        try {
+          const fmt = new Intl.DateTimeFormat("fa-IR-u-ca-persian-nu-latn", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          });
+          const parts = fmt.formatToParts(new Date());
+          const y = parts.find((p) => p.type === "year");
+          if (y && /^\d+$/.test(y.value)) return parseInt(y.value, 10);
+        } catch (e) {}
+        const g = new Date();
+        const j = gregorianToJalali(
+          g.getFullYear(),
+          g.getMonth() + 1,
+          g.getDate()
+        );
+        return j[0];
+      }
 
-      let todayInIslamicYear = new Date().toLocaleDateString("ar-SA-u-nu-latn");
-      const islamiciArray_1 = todayInIslamicYear.split("/");
-      const islamiciArray_2 = islamiciArray_1[2].split(" ");
-      let islamicCurrentYearInt = parseInt(islamiciArray_2[0], 10);
+      function getIslamicYearSafe(gregorianYear) {
+        try {
+          const fmt = new Intl.DateTimeFormat("ar-SA-u-ca-islamic-nu-latn", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          });
+          const parts = fmt.formatToParts(new Date());
+          const y = parts.find((p) => p.type === "year");
+          if (y && /^\d+$/.test(y.value)) return parseInt(y.value, 10);
+        } catch (e) {}
+        return Math.floor(((gregorianYear - 622) * 33) / 32);
+      }
 
-      let GregorianCurrentYear = new Date().getFullYear();
+      function gregorianToJalali(gy, gm, gd) {
+        const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        let gy2 = gm > 2 ? gy + 1 : gy;
+        let days =
+          355666 +
+          365 * gy +
+          Math.floor((gy2 + 3) / 4) -
+          Math.floor((gy2 + 99) / 100) +
+          Math.floor((gy2 + 399) / 400) +
+          gd +
+          g_d_m[gm - 1];
+        let jy = -1595 + 33 * Math.floor(days / 12053);
+        days %= 12053;
+        jy += 4 * Math.floor(days / 1461);
+        days %= 1461;
+        if (days > 365) {
+          jy += Math.floor((days - 1) / 365);
+          days = (days - 1) % 365;
+        }
+        const jm =
+          days < 186
+            ? 1 + Math.floor(days / 31)
+            : 7 + Math.floor((days - 186) / 30);
+        const jd = 1 + (days < 186 ? days % 31 : (days - 186) % 30);
+        return [jy, jm, jd];
+      }
+
+      const GregorianCurrentYear = new Date().getFullYear();
+      const ShamsiCurrentYearInt = getShamsiYearSafe();
+      const islamicCurrentYearInt = getIslamicYearSafe(GregorianCurrentYear);
 
       function validateAge(age) {
         if (age === null || age === undefined || isNaN(age)) {
@@ -674,7 +723,7 @@
         return true;
       }
 
-      window.Convert_islamic_date_to_Gregorian_and_HejiriShamsi = function () {
+      function Convert_islamic_date_to_Gregorian_and_HejiriShamsi() {
         let How_Many_Years = parseInt($("#Islamic_How_Many_Years").val(), 10);
         let In_Which_Year = parseInt($("#Islamic_In_Which_Year").val(), 10);
 
@@ -706,9 +755,9 @@
           $("#Islamic_How_Many_Years").focus();
           pulseActive();
         }
-      };
+      }
 
-      window.Convert_HejiriShamsi_date_to_Gregorian_and_islamic = function () {
+      function Convert_HejiriShamsi_date_to_Gregorian_and_islamic() {
         let How_Many_Years = parseInt($("#How_Many_Years").val(), 10);
         let In_Which_Year = parseInt($("#In_Which_Year").val(), 10);
 
@@ -740,9 +789,9 @@
           $("#How_Many_Years").focus();
           pulseActive();
         }
-      };
+      }
 
-      window.Convert_Gregorian_date_to_islamic_and_HejiriShamsi = function () {
+      function Convert_Gregorian_date_to_islamic_and_HejiriShamsi() {
         let Which_Year = parseInt($("#G_Year").val(), 10);
         if (isNaN(Which_Year)) {
           swalErr("لطفاً سال معتبر وارد کنید.");
@@ -775,9 +824,9 @@
             pulseActive();
           }
         }
-      };
+      }
 
-      window.electronic_nic = function () {
+      function electronic_nic() {
         let S_Year = parseInt($("#S_Year").val(), 10);
         if (isNaN(S_Year)) {
           swalErr("لطفاً سال معتبر وارد کنید.");
@@ -805,7 +854,7 @@
           $("#S_Year").val("").focus();
           pulseActive();
         }
-      };
+      }
 
       $(document).ready(function () {
         function onlyNumber(id) {
@@ -848,6 +897,30 @@
                 if ($btn.length) $btn.trigger("click");
               }
             }
+          }
+        );
+
+        $("#btn-card1").on("click", function (e) {
+          e.preventDefault();
+          Convert_HejiriShamsi_date_to_Gregorian_and_islamic();
+        });
+        $("#btn-card2").on("click", function (e) {
+          e.preventDefault();
+          Convert_islamic_date_to_Gregorian_and_HejiriShamsi();
+        });
+        $("#btn-card3").on("click", function (e) {
+          e.preventDefault();
+          electronic_nic();
+        });
+        $("#btn-card4").on("click", function (e) {
+          e.preventDefault();
+          Convert_Gregorian_date_to_islamic_and_HejiriShamsi();
+        });
+
+        $("#btn-card1, #btn-card2, #btn-card3, #btn-card4").on(
+          "touchend",
+          function (e) {
+            $(this).trigger("click");
           }
         );
 
